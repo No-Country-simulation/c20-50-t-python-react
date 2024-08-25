@@ -1,0 +1,285 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Created by https://www.toptal.com/developers/gitignore/api/flask,react
+# Edit at https://www.toptal.com/developers/gitignore?templates=flask,react
+
+### Flask ###
+instance/*
+!instance/.gitignore
+.webassets-cache
+.envRoot Directory
+
+app/ (Directorio principal del proyecto)
+frontend/ (Carpeta para el código frontend)
+src/ (Carpeta para el código fuente del frontend)
+components/ (Carpeta para los componentes de la interfaz de usuario)
+containers/ (Carpeta para los contenedores de la interfaz de usuario)
+utils/ (Carpeta para las funciones y helper del frontend)
+styles/ (Carpeta para los estilos CSS)
+backend/ (Carpeta para el código backend)
+src/ (Carpeta para el código fuente del backend)
+models/ (Carpeta para los modelos de datos)
+controllers/ (Carpeta para los controladores de la lógica de negocio)
+services/ (Carpeta para los servicios de negocio)
+routes/ (Carpeta para las rutas de la aplicación)
+config/ (Carpeta para las configuraciones del proyecto)
+env/ (Carpeta para las configuraciones de entorno)
+database/ (Carpeta para las configuraciones de la base de datos)
+docs/ (Carpeta para la documentación del proyecto)
+tests/ (Carpeta para los tests unitarios y de integración)
+data/ (Carpeta para los datos y archivos del proyecto)
+public/ (Carpeta para los archivos públicos accesibles)
+Rationale
+
+La carpeta app/ es el directorio principal del proyecto, que contiene las carpetas y archivos clave del proyecto.
+La carpeta frontend/ contiene el código frontend, dividido en carpetas lógicas como components, containers, utils, y styles.
+La carpeta backend/ contiene el código backend, dividido en carpetas lógicas como models, controllers, services, y routes.
+La carpeta config/ contiene las configuraciones del proyecto, incluyendo entornos y bases de datos.
+La carpeta docs/ contiene la documentación del proyecto, que puede incluir archivos PDF, Markdown, y otros formatos.
+La carpeta tests/ contiene los tests unitarios y de integración del proyecto.
+La carpeta data/ contiene los datos y archivos del proyecto, como imágenes, videos, y otros archivos.
+La carpeta public/ contiene los archivos públicos accesibles, como imágenes, videos, y otros archivos.
+Tips
+
+Utiliza carpetas lógicas y nombrarlas con un prefijo que refleje su función o propósito. Por ejemplo, utilizar "app" o "core" en lugar de "frontend" o "backend".
+Mantén una estructura coherente y consistente a lo largo del proyecto.
+Utiliza herramientas como Gitignore para mantener a raya los archivos y carpetas innecesarios en el repositorio.
+Considera utilizar un gestor de dependencias como npm o yarn para gestionar las dependencias del proyecto.
+Espero que esta estructura te sea útil. ¡Si tienes alguna pregunta o necesitas ayuda adicional, no dudes en preguntar!Root Directory
+
+app/ (Directorio principal del proyecto)
+frontend/ (Carpeta para el código frontend)
+src/ (Carpeta para el código fuente del frontend)
+components/ (Carpeta para los componentes de la interfaz de usuario)
+containers/ (Carpeta para los contenedores de la interfaz de usuario)
+utils/ (Carpeta para las funciones y helper del frontend)
+styles/ (Carpeta para los estilos CSS)
+backend/ (Carpeta para el código backend)
+src/ (Carpeta para el código fuente del backend)
+models/ (Carpeta para los modelos de datos)
+controllers/ (Carpeta para los controladores de la lógica de negocio)
+services/ (Carpeta para los servicios de negocio)
+routes/ (Carpeta para las rutas de la aplicación)
+config/ (Carpeta para las configuraciones del proyecto)
+env/ (Carpeta para las configuraciones de entorno)
+database/ (Carpeta para las configuraciones de la base de datos)
+docs/ (Carpeta para la documentación del proyecto)
+tests/ (Carpeta para los tests unitarios y de integración)
+data/ (Carpeta para los datos y archivos del proyecto)
+public/ (Carpeta para los archivos públicos accesibles)
+Rationale
+
+La carpeta app/ es el directorio principal del proyecto, que contiene las carpetas y archivos clave del proyecto.
+La carpeta frontend/ contiene el código frontend, dividido en carpetas lógicas como components, containers, utils, y styles.
+La carpeta backend/ contiene el código backend, dividido en carpetas lógicas como models, controllers, services, y routes.
+La carpeta config/ contiene las configuraciones del proyecto, incluyendo entornos y bases de datos.
+La carpeta docs/ contiene la documentación del proyecto, que puede incluir archivos PDF, Markdown, y otros formatos.
+La carpeta tests/ contiene los tests unitarios y de integración del proyecto.
+La carpeta data/ contiene los datos y archivos del proyecto, como imágenes, videos, y otros archivos.
+La carpeta public/ contiene los archivos públicos accesibles, como imágenes, videos, y otros archivos.
+Tips
+
+Utiliza carpetas lógicas y nombrarlas con un prefijo que refleje su función o propósito. Por ejemplo, utilizar "app" o "core" en lugar de "frontend" o "backend".
+Mantén una estructura coherente y consistente a lo largo del proyecto.
+Utiliza herramientas como Gitignore para mantener a raya los archivos y carpetas innecesarios en el repositorio.
+Considera utilizar un gestor de dependencias como npm o yarn para gestionar las dependencias del proyecto.
+Espero que esta estructura te sea útil. ¡Si tienes alguna pregunta o necesitas ayuda adicional, no dudes en preguntar!
+
+### Flask.Python Stack ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+#   For a library or package, you might want to ignore these files since the code is
+#   intended to run in multiple environments; otherwise, check them in:
+# .python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# poetry
+#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+#poetry.lock
+
+# pdm
+#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
+#pdm.lock
+#   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
+#   in version control.
+#   https://pdm.fming.dev/#use-with-ide
+.pdm.toml
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
+#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
+#  and can be added to the global gitignore or merged into this file.  For a more nuclear
+#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+#.idea/
+
+### react ###
+.DS_*
+logs
+**/*.backup.*
+**/*.back.*
+
+node_modules
+bower_components
+
+*.sublime*
+
+psd
+thumb
+sketch
+
+# End of https://www.toptal.com/developers/gitignore/api/flask,react
