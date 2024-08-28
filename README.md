@@ -90,7 +90,7 @@ Restaurant App es una aplicación web diseñada para mejorar la experiencia tant
 ## **Tecnologías**
 - **Frontend:**
   - React+vite
-  - Tailwind
+  - ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
   - Cloudinary
   - Axios (Request)
   - Zustand (Manejo de estado)
