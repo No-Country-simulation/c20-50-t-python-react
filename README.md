@@ -1,70 +1,114 @@
-# Getting Started with Create React App
+# **Restaurant App - MVP**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## **Industria**
+**Rubro:** SaaS (Software as a Service)
 
-## Available Scripts
+## **Descripción**
+Restaurant App es una aplicación web diseñada para mejorar la experiencia tanto de los clientes como del personal en restaurantes. El MVP de esta aplicación incluye funcionalidades como pedidos en línea mediante QR, pagos a través de la app, y una eficiente gestión de comandas en la cocina. El objetivo es digitalizar y optimizar el proceso de atención en restaurantes, brindando una experiencia más fluida y conveniente para los usuarios y el personal del restaurante.
 
-In the project directory, you can run:
+## **Uso**
 
-### `npm start`
+### **Hacer Pedido desde QR Code**
+1. El usuario escanea un código QR en su mesa.
+2. Accede al menú digital y realiza su pedido.
+3. Confirma y paga el pedido a través de la app.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### **Gestión de Comandas en la Cocina**
+1. El equipo de cocina recibe los pedidos organizados por mesa.
+2. Gestionan los pedidos según el tiempo de despacho y la complejidad.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## **Estructura**
+**Directorio raiz**
 
-### `npm test`
+- `app/` (Directorio principal del proyecto)
+  - `frontend/` (Carpeta para el código frontend)
+    - `src/` (Carpeta para el código fuente del frontend)
+      - `components/` (Carpeta para los componentes de la interfaz de usuario)
+      - `containers/` (Carpeta para los contenedores de la interfaz de usuario)
+      - `utils/` (Carpeta para las funciones y helper del frontend)
+      - `styles/` (Carpeta para los estilos CSS)
+  - `backend/` (Carpeta para el código backend)
+    - `src/` (Carpeta para el código fuente del backend)
+      - `models/` (Carpeta para los modelos de datos)
+      - `controllers/` (Carpeta para los controladores de la lógica de negocio)
+      - `services/` (Carpeta para los servicios de negocio)
+      - `routes/` (Carpeta para las rutas de la aplicación)
+  - `config/` (Carpeta para las configuraciones del proyecto)
+    - `env/` (Carpeta para las configuraciones de entorno)
+    - `database/` (Carpeta para las configuraciones de la base de datos)
+  - `docs/` (Carpeta para la documentación del proyecto)
+  - `tests/` (Carpeta para los tests unitarios y de integración)
+- `data/` (Carpeta para los datos y archivos del proyecto)
+- `public/` (Carpeta para los archivos públicos accesibles)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Organización**
 
-### `npm run build`
+- La carpeta `app/` es el directorio principal del proyecto, que contiene las carpetas y archivos clave del proyecto.
+- La carpeta `frontend/` contiene el código frontend, dividido en carpetas lógicas como `components`, `containers`, `utils`, y `styles`.
+- La carpeta `backend/` contiene el código backend, dividido en carpetas lógicas como `models`, `controllers`, `services`, y `routes`.
+- La carpeta `config/` contiene las configuraciones del proyecto, incluyendo entornos y bases de datos.
+- La carpeta `docs/` contiene la documentación del proyecto, que puede incluir archivos PDF, Markdown, y otros formatos.
+- La carpeta `tests/` contiene los tests unitarios y de integración del proyecto.
+- La carpeta `data/` contiene los datos y archivos del proyecto, como imágenes, videos, y otros archivos.
+- La carpeta `public/` contiene los archivos públicos accesibles, como imágenes, videos, y otros archivos.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## **Colaboradores**
+1. **Oscar Galeano**  
+   - **Rol:** Scrum Master  
+   - **Correo:** oscar.galeano@gmail.com  
+   - **LinkedIn:** [http://co.linkedin.com/in/ogaleano](http://co.linkedin.com/in/ogaleano)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. **Frananyel Vidal**  
+   - **Rol:** Front End  
+   - **Correo:** frananyelvidal@gmail.com
 
-### `npm run eject`
+3. **Facundo Rua**  
+   - **Rol:** Back End  
+   - **Correo:** Facundo.rua90@gmail.com  
+   - **LinkedIn:** [https://www.linkedin.com/in/facundogrua/](https://www.linkedin.com/in/facundogrua/)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. **Anghela Anzaldo**  
+   - **Rol:** QA Tester  
+   - **Correo:** anghie.parker@gmail.com  
+   - **LinkedIn:** [linkedin.com/in/anghela-anzaldo-2a7374173](https://linkedin.com/in/anghela-anzaldo-2a7374173)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. **Benjamin Diaz**  
+   - **Rol:** Back End  
+   - **Correo:** oliver125125@protonmail.com
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+6. **Brenda Camaño**  
+   - **Rol:** UI/UX  
+   - **Correo:** Brendacamano@gmail.com  
+   - **LinkedIn:** [https://www.linkedin.com/in/brendacamano/](https://www.linkedin.com/in/brendacamano/)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+7. **Yesenia Vásquez**  
+   - **Rol:** UX/UI  
+   - **Correo:** geraldine.vasquez142@gmail.com  
+   - **LinkedIn:** [https://www.linkedin.com/in/yesenia-vasquez/](https://www.linkedin.com/in/yesenia-vasquez/)
 
-## Learn More
+## **Tecnologías**
+- **Frontend:**
+  - React+vite
+  - Tailwind
+  - Cloudinary
+  - Axios (Request)
+  - Zustand (Manejo de estado)
+  - React Hot Toast (Notificaciones estilizadas)
+  - react-icons (Iconos SVG)
+  
+- **UX/UI:**
+  - Figma (diseño)
+  - Google Forms + Optimal Workshop (encuestas)
+  
+- **Backend:**
+  - Python + Flask (Desarrollo API)
+  - MySQL (manejo de datos)
+  - PythonAnywhere (Alojamiento de la API y su BD)
+  
+- **Project Management:**
+  - Asana
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## **Enlaces del Proyecto**
+- **Repositorio en GitHub:** [https://github.com/tu-usuario/restaurant-app](https://github.com/tu-usuario/restaurant-app)
+- **Sitio Web del Proyecto:** [https://restaurantapp.example.com](https://restaurantapp.example.com) *(Este enlace es un ejemplo y debe actualizarse según la realidad del proyecto)*
