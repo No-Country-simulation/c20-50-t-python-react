@@ -1,35 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+/**
+ * Componente principal de la aplicación
+ *
+ * @returns {JSX.Element} - Elemento JSX que contiene la estructura básica de la aplicación
+ */
+import "./App.css";
+import CardsContainer from "./containers/CardsContainer";
+import Header from "./containers/Header";
+import Navbar from "./containers/Navbar";
+import OrderSummary from "./containers/OrderSummary";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+// Definimos las categorías de la aplicación
+const categories = [
+  "Entrantes",
+  "Pizzas",
+  "Bebidas",
+  "Pastas",
+  "Risotos",
+  "Postres",
+];
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    // Contenedor principal con estilos de flexbox
+    <div
+      className={`
+        flex 
+        flex-col 
+        h-screen 
+        font-roboto
+      `}
+    >
+      {/* Header de la aplicación */}
+      <Header />
 
-export default App
+      {/* Barra de navegación con categorías */}
+      <Navbar categories={categories} />
+
+      {/* Contenedor vacío para futuras secciones */}
+      <div
+        className={`
+          flex 
+          flex-row
+          justify-between
+          w-[87.5%]
+          mx-auto
+        `}
+      >
+        <CardsContainer />
+        <OrderSummary />
+      </div>
+    </div>
+  );
+};
+
+export default App;
