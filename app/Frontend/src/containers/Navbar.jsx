@@ -5,7 +5,7 @@ import SearchBar from "../components/SearchBar";
 const Navbar = ({ categories }) => {
   return (
     <div className="w-full py-6">
-      <div className="box-border flex flex-row w-[87.5%] mx-auto justify-evenly rounded-lg bg-[#E6E6E6] h-[64px] items-center ">
+      <div className="box-border flex flex-row w-[87.5%] mx-auto justify-evenly rounded-lg bg-[#E6E6E6] h-[64px] items-center">
         <div className="flex flex-row px-2 w-2/3 justify-evenly">
           <button>
             <svg

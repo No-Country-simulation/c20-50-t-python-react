@@ -3,7 +3,7 @@
  *
  * @returns {JSX.Element} - Elemento JSX que contiene la estructura básica de la aplicación
  */
-import "./App.css";
+
 import CardsContainer from "./containers/CardsContainer";
 import Header from "./containers/Header";
 import Navbar from "./containers/Navbar";
