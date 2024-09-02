@@ -94,3 +94,17 @@ def create_menu():
     menu_data['agregados'] = agregado_schema.dump(agregados)
 
     return jsonify(menu_data), 201
+
+@menu_bp.route('/menu/<int:id>', methods=['DELETE'])
+def delete_menu(id):
+    menu_item = Menu.query.get(id)
+
+    if not menu_item:
+        return jsonify({"message": "Producto no encontrado"}), 404
+
+    Agregado.query.filter_by(id_menu=id).delete()
+
+    db.session.delete(menu_item)
+    db.session.commit()
+
+    return jsonify({"message": "Producto y agregados eliminados"}), 200
