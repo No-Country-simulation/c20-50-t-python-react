@@ -1,7 +1,28 @@
+// Componente Header
 const Header = () => {
+  // Retorna el JSX del componente
   return (
-    <div className="bg-slate-400 h-[20%] w-full flex justify-center items-center ">
-      <div className="flex flex-col justify-between py-4">
+    // Div contenedor del header
+    <div
+      className={`
+        flex
+        bg-slate-400
+        h-[20%]
+        w-full
+        justify-center
+        items-center
+      `}
+    >
+      {/* Div contenedor de Logo y la dirección */}
+      <div
+        className={`
+          flex 
+          flex-col
+          justify-between
+          py-4
+        `}
+      >
+        {/* Logo */}
         <div>
           <svg
             width="196"
@@ -21,7 +42,13 @@ const Header = () => {
             />
           </svg>
         </div>
-        <div className="flex flex-row  ">
+        {/* Dirección del local */}
+        <div
+          className={`
+          flex 
+          flex-row
+          `}
+        >
           <svg
             width="24"
             height="24"
@@ -41,7 +68,7 @@ const Header = () => {
               </clipPath>
             </defs>
           </svg>
-          <span className="ml-1 lg:text-lg ">Dirección del local</span>
+          <span className="ml-1">Dirección del local</span>
         </div>
       </div>
     </div>
