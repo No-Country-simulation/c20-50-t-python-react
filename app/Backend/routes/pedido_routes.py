@@ -4,7 +4,7 @@ from datetime import datetime
 
 pedido_bp = Blueprint('pedido', __name__)
 
-@pedido_bp.route('/pedidos', methods=['PUT'])
+@pedido_bp.route('/pedidos', methods=['POST'])
 def create_pedido():
     data = request.get_json()
 
