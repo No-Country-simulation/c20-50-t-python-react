@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from ..models import db, Menu, Agregado
-from ..schemas import MenuSchema, AgregadoSchema
+from models import db, Menu, Agregado
+from schemas import MenuSchema, AgregadoSchema
 
 menu_bp = Blueprint('menu', __name__)
 menu_schema = MenuSchema()

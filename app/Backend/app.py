@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_migrate import Migrate
-from .models import db
-from .routes import init_app
+from models import db
+from routes import init_app
 
 def create_app():
     app = Flask(__name__)
