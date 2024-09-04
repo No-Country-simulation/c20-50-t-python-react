@@ -5,3 +5,4 @@ db = SQLAlchemy()
 from .menu import Menu
 from .agregado import Agregado
 from .pedido import Pedido
+from .imagen import Imagen

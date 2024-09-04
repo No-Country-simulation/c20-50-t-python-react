@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from models import db, Pedido, Menu, Agregado
 from schemas import MenuSchema, AgregadoSchema
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 
 pedido_bp = Blueprint('pedido', __name__)
@@ -90,7 +90,6 @@ def get_pedido(id):
     
     return jsonify(pedido_data), 200
 
-#Metodo para marcar como entregado el pedido.
 @pedido_bp.route('/pedidos/<int:id>/entregar', methods=['PUT'])
 def marcar_entregado(id):
     pedido = Pedido.query.get_or_404(id)
@@ -98,7 +97,6 @@ def marcar_entregado(id):
     if pedido.entregado:
         return jsonify({"message": "El pedido ya ha sido entregado"}), 400
 
-    
     timezone = pytz.timezone('America/Argentina/Buenos_Aires')  # Cambia esto según la zona horaria deseada
     local_time = datetime.now(timezone)
 
@@ -107,13 +105,15 @@ def marcar_entregado(id):
 
     db.session.commit()
 
-    return jsonify({"message": "Pedido marcado como entregado", "pedido": {
-        "id": pedido.id,
-        "entregado": pedido.entregado,
-        "hentrega": pedido.hentrega
-    }}), 200
+    return jsonify({
+        "message": "Pedido marcado como entregado", 
+        "pedido": {
+            "id": pedido.id,
+            "entregado": pedido.entregado,
+            "hentrega": pedido.hentrega
+        }
+    }), 200
 
-#Este método sirve para corregir un pedido realizado. Por ahora tiene un limite de 3 minutos para ser funcional, luego de eso no permite cambios.
 @pedido_bp.route('/pedidos/<int:id>/corregir', methods=['PUT'])
 def corregir_pedido(id):
     pedido = Pedido.query.get_or_404(id)
@@ -138,12 +138,15 @@ def corregir_pedido(id):
 
     db.session.commit()
 
-    return jsonify({"message": "Pedido corregido con éxito", "pedido": {
-        "id": pedido.id,
-        "id_menu": pedido.id_menu,
-        "id_agregado": pedido.id_agregado,
-        "cantidad": pedido.cantidad,
-        "solicitado": pedido.solicitado,
-        "entregado": pedido.entregado,
-        "hentrega": pedido.hentrega
-    }}), 200
+    return jsonify({
+        "message": "Pedido corregido con éxito", 
+        "pedido": {
+            "id": pedido.id,
+            "id_menu": pedido.id_menu,
+            "id_agregado": pedido.id_agregado,
+            "cantidad": pedido.cantidad,
+            "solicitado": pedido.solicitado,
+            "entregado": pedido.entregado,
+            "hentrega": pedido.hentrega
+        }
+    }), 200
