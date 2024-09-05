@@ -9,13 +9,13 @@ import PropTypes from "prop-types";
  * @param {string} category - La categoría a mostrar
  * @returns {JSX.Element} El componente CategoryBox
  */
-const CategoryBox = ({ category }) => {
+const CategoryBox = ({ label }) => {
   return (
     // Contenedor con estilos de caja
     <div
       className={`
         box-border 
-        w-[20%] 
+        flex-1 
         text-center 
         py-3 
         transition 
@@ -28,12 +28,15 @@ const CategoryBox = ({ category }) => {
       {/* Texto de la categoría con estilos de fuente */}
       <span
         className={`
-          text-lg 
+          text-sm
+          md:text-base
+          xl:text-lg
           font-semibold 
           leading-4
+          capitalize
         `}
       >
-        {category}
+        {label}
       </span>
     </div>
   );
@@ -41,7 +44,7 @@ const CategoryBox = ({ category }) => {
 
 // Definimos los tipos de props esperados
 CategoryBox.propTypes = {
-  category: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
 };
 
 // Exportamos el componente por defecto

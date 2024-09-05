@@ -11,7 +11,7 @@ const SearchBar = () => {
         flex 
         flex-row 
         h-[3rem] 
-        w-[32%] 
+        w-[32.2%] 
         bg-white 
         rounded-xl 
         border 
@@ -44,7 +44,10 @@ const SearchBar = () => {
 
       {/* Input de búsqueda */}
       <input
-        className="outline-none w-full"
+        className={`
+          outline-none 
+          w-full
+          `}
         type="text"
         placeholder="Buscar un producto"
       />

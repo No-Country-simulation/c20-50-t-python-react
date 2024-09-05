@@ -2,12 +2,45 @@ import Categories from "../components/categories/Categories";
 import PropTypes from "prop-types";
 import SearchBar from "../components/SearchBar";
 
-const Navbar = ({ categories }) => {
+const Navbar = ({ categories, category, setCategory }) => {
   return (
-    <div className="w-full py-6">
-      <div className="box-border flex flex-row w-[87.5%] mx-auto justify-evenly rounded-lg bg-[#E6E6E6] h-[64px] items-center">
-        <div className="flex flex-row px-2 w-2/3 justify-evenly">
-          <button>
+    <div
+      className={`
+      w-full 
+      py-4
+    `}
+    >
+      <div
+        className={`
+        box-border 
+        flex 
+        flex-row 
+        gap-6 
+        w-[87.5%] 
+        mx-auto 
+        px-2 
+        justify-evenly 
+        rounded-lg 
+        bg-[#E6E6E6] 
+        h-[64px] 
+        items-center
+      `}
+      >
+        <div
+          className={`
+          flex 
+          flex-row 
+          px-2 
+          w-2/3 
+          gap-2
+        `}
+        >
+          <button
+            className={`
+            flex 
+            items-center
+          `}
+          >
             <svg
               width="24"
               height="24"
@@ -24,7 +57,12 @@ const Navbar = ({ categories }) => {
 
           <Categories categories={categories} />
 
-          <button>
+          <button
+            className={`
+            flex 
+            items-center
+          `}
+          >
             <svg
               width="24"
               height="24"
@@ -48,6 +86,8 @@ const Navbar = ({ categories }) => {
 
 Navbar.propTypes = {
   categories: PropTypes.array.isRequired,
+  category: PropTypes.string.isRequired,
+  setCategory: PropTypes.func.isRequired,
 };
 
 export default Navbar;

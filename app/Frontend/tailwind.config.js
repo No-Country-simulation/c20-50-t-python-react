@@ -8,7 +8,9 @@ export default {
     extend: {
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
       },
+
       colors: {
         // Add your colors here
       },

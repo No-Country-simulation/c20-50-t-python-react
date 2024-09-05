@@ -1,8 +1,9 @@
-import Cards from "../components/cards/Cards";
+import Card from "../components/card/Card";
+import PropTypes from "prop-types";
 
-const CardsContainer = () => {
+const CardsContainer = ({ menu, order }) => {
   return (
-    <div className="flex flex-col w-3/5">
+    <div className="flex flex-col w-[66.2%]">
       <div
         className={`
         h-12
@@ -19,9 +20,28 @@ const CardsContainer = () => {
         CATEGORY
       </div>
 
-      <Cards />
+      <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 my-4">
+        {menu.map((food, key) => {
+          return (
+            <Card
+              key={key}
+              id={food.id}
+              title={food.title}
+              price={food.price}
+              description={food.description}
+              category={food.category}
+              agregados={food.agregados}
+            />
+          );
+        })}
+      </div>
     </div>
   );
+};
+
+CardsContainer.propTypes = {
+  menu: PropTypes.array,
+  order: PropTypes.array,
 };
 
 export default CardsContainer;
