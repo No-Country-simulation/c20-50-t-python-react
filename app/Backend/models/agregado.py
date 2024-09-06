@@ -8,4 +8,4 @@ class Agregado(db.Model):
     precio = db.Column(db.Float, nullable=False)
     descripcion = db.Column(db.String(255))
 
-    menu = db.relationship('Menu', backref=db.backref('agregados', lazy=True))
+    #menu = db.relationship('Menu', backref=db.backref('agregados', lazy=True))

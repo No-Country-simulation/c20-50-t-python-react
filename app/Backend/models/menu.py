@@ -9,5 +9,4 @@ class Menu(db.Model):
     categoria = db.Column(db.String(100))
 
     agregados = db.relationship('Agregado', backref='menu', lazy=True, cascade='all, delete-orphan')
-
     imagenes = db.relationship('Imagen', backref='menu', lazy=True, cascade='all, delete-orphan')

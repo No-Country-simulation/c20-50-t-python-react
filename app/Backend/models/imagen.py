@@ -6,4 +6,4 @@ class Imagen(db.Model):
     id_menu = db.Column(db.Integer, db.ForeignKey('menu.id'), nullable=False)
     url = db.Column(db.String(255), nullable=False)
 
-    menu = db.relationship('Menu', backref=db.backref('imagenes', lazy=True, cascade='all, delete-orphan'))
+    #menu = db.relationship('Menu', backref=db.backref('imagenes', lazy=True, cascade='all, delete-orphan'))
