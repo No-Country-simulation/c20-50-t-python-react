@@ -3,6 +3,7 @@ from models import db, Pedido, Menu, Agregado
 from schemas import MenuSchema, AgregadoSchema
 from datetime import datetime, timedelta
 import pytz
+from middleware.auth_middleware import login_required, check_permissions
 
 pedido_bp = Blueprint('pedido', __name__)
 
@@ -91,6 +92,8 @@ def get_pedido(id):
     return jsonify(pedido_data), 200
 
 @pedido_bp.route('/pedidos/<int:id>/entregar', methods=['PUT'])
+@login_required
+@check_permissions(1)
 def marcar_entregado(id):
     pedido = Pedido.query.get_or_404(id)
 
@@ -115,6 +118,8 @@ def marcar_entregado(id):
     }), 200
 
 @pedido_bp.route('/pedidos/<int:id>/corregir', methods=['PUT'])
+@login_required
+@check_permissions(2)
 def corregir_pedido(id):
     pedido = Pedido.query.get_or_404(id)
 
@@ -150,3 +155,40 @@ def corregir_pedido(id):
             "hentrega": pedido.hentrega
         }
     }), 200
+
+@pedido_bp.route('/pedidos/<int:id>', methods=['DELETE'])
+@login_required
+@check_permissions(1)
+def delete_pedido(id):
+    pedido = Pedido.query.get_or_404(id)
+
+    timezone = pytz.timezone('America/Argentina/Buenos_Aires')  # Ajusta según la zona horaria
+    current_time = datetime.now(timezone)
+
+    tiempo_solicitado = pedido.solicitado.astimezone(timezone)
+    tiempo_limite = tiempo_solicitado + timedelta(minutes=3)
+
+    if current_time > tiempo_limite:
+        return jsonify({"message": "No se puede eliminar el pedido después de 3 minutos"}), 403
+
+    if pedido.entregado:
+        return jsonify({"message": "No se puede eliminar un pedido que ya ha sido entregado"}), 400
+
+    db.session.delete(pedido)
+    db.session.commit()
+
+    return jsonify({"message": "Pedido eliminado con éxito"}), 200
+
+@pedido_bp.route('/pedidos/<int:id>/forzar-eliminar', methods=['DELETE'])
+@login_required
+@check_permissions(2)
+def force_delete_pedido(id):
+    pedido = Pedido.query.get_or_404(id)
+
+    if pedido.entregado:
+        return jsonify({"message": "No se puede eliminar un pedido que ya ha sido entregado"}), 400
+
+    db.session.delete(pedido)
+    db.session.commit()
+
+    return jsonify({"message": "Pedido eliminado con éxito, sin restricción de tiempo"}), 200

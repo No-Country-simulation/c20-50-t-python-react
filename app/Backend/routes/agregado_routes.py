@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from models import db, Agregado, Menu
 from schemas import AgregadoSchema
+from middleware.auth_middleware import login_required, check_permissions
 
 agregado_bp = Blueprint('agregado', __name__)
 
@@ -8,6 +9,8 @@ agregado_schema = AgregadoSchema()
 agregados_schema = AgregadoSchema(many=True)
 
 @agregado_bp.route('/agregados', methods=['POST'])
+@login_required
+@check_permissions(2)
 def create_agregado():
     data = request.get_json()
 
@@ -30,6 +33,8 @@ def create_agregado():
     return jsonify(agregado_schema.dump(nuevo_agregado)), 201
 
 @agregado_bp.route('/agregados/<int:id>', methods=['PUT'])
+@login_required
+@check_permissions(2)
 def update_agregado(id):
     agregado = Agregado.query.get_or_404(id)
     data = request.get_json()
@@ -50,6 +55,8 @@ def update_agregado(id):
     return jsonify(agregado_schema.dump(agregado)), 200
 
 @agregado_bp.route('/agregados/<int:id>', methods=['DELETE'])
+@login_required
+@check_permissions(2)
 def delete_agregado(id):
     agregado = Agregado.query.get_or_404(id)
 
