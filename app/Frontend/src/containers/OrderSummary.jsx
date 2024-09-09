@@ -1,60 +1,10 @@
 import Button from "../components/Button";
 import Order from "../components/Order";
-
+import useCart from "../store/useCart";
 import PropTypes from "prop-types";
 
 const OrderSummary = () => {
-  const orders = [
-    {
-      title: "Fettuccine Alfredo",
-      price: 16,
-      description: "Fettuccine, crema, parmesano, mantequilla",
-      id: 8,
-      category: "Pastas",
-      agregados: [
-        {
-          id: 3,
-          id_menu: 8,
-          name: "Pollo a la Parrilla",
-          price: 3.0,
-          description:
-            "Un poco de pollo a la parrilla para darle un toque más proteico",
-        },
-        {
-          id: 4,
-          id_menu: 8,
-          name: "Cebolla Caramelizada",
-          price: 1.5,
-          description:
-            "Un poco de cebolla caramelizada para darle un toque más dulce",
-        },
-      ],
-    },
-    {
-      id: 9,
-      title: "Risoto de Champiñones",
-      price: 18.99,
-      description: "Arroz, champiñones, cebolla, vino blanco, caldo de pollo",
-      category: "Risotos",
-      agregados: [
-        {
-          id: 12,
-          id_menu: 9,
-          name: "Queso de Cabra",
-          price: 2.75,
-          description: "Un queso de cabra para darle un toque más exótico",
-        },
-        {
-          id: 13,
-          id_menu: 9,
-          name: "Perejil Fresco",
-          price: 1.0,
-          description:
-            "Un poco de perejil fresco para darle un toque más fresco",
-        },
-      ],
-    },
-  ];
+  const { order, total, subTotal } = useCart();
 
   return (
     <div
@@ -91,29 +41,57 @@ const OrderSummary = () => {
           Mi pedido
         </span>
       </div>
-      <div
-        className={`
+
+      {order.length === 0 ? (
+        <div className=" px-4  ">
+          <div
+            className={`
+          flex
+          items-center
+          justify-center
+          self-center
+
+          w-1/2
+          h-[46px]
+          mx-auto
+          text-white
+          font-semibold
+          text-lg 
+          border
+          rounded-xl
+          border-[#343434]
+          bg-[#343434]
+          `}
+          >
+            No orders yet
+          </div>
+        </div>
+      ) : (
+        <div
+          className={`
         flex
         flex-col
         pr-4 
         pl-2 
         gap-3
         `}
-      >
-        {orders.map((food, key) => {
-          return (
-            <Order
-              key={key}
-              id={food.id}
-              title={food.title}
-              price={food.price}
-              description={food.description}
-              category={food.category}
-              agregados={food.agregados}
-            />
-          );
-        })}
-      </div>
+        >
+          {order.map((food, key) => {
+            return (
+              <Order
+                key={key}
+                id={food.id}
+                title={food.title}
+                price={food.price}
+                description={food.description}
+                category={food.category}
+                agregados={food.agregados}
+              />
+            );
+          })}
+        </div>
+      )}
+
       <div
         name="bills"
         className={`
@@ -137,7 +115,7 @@ const OrderSummary = () => {
         `}
         >
           <span>Sub-total</span>
-          <span>$10.00</span>
+          <span>$ {subTotal}</span>
         </div>
         <div
           className={`
@@ -153,19 +131,31 @@ const OrderSummary = () => {
         `}
         >
           <span>Total</span>
-          <span>$10.00</span>
+          <span>$ {total}</span>
         </div>
       </div>
 
-      <div
-        className={`
+      {order.length === 0 ? (
+        <div
+          className={`
         w-full 
         px-2
         mx-auto
       `}
-      >
-        <Button label="Confirmar pedido" />
-      </div>
+        >
+          <Button disabled label="Confirmar pedido" />
+        </div>
+      ) : (
+        <div
+          className={`
+        w-full 
+        px-2
+        mx-auto
+      `}
+        >
+          <Button label="Confirmar pedido" />
+        </div>
+      )}
     </div>
   );
 };

@@ -1,6 +1,9 @@
 import PropTypes from "prop-types";
+import useCart from "../../store/useCart";
 
-const Card = ({ id, title, price, description, category, agregados }) => {
+const Card = ({ id, title, price, description, category }) => {
+  const { order, subTotal, addDish, removeDish } = useCart();
+
   return (
     <div
       className={`
@@ -11,13 +14,36 @@ const Card = ({ id, title, price, description, category, agregados }) => {
       id={id}
       name={category}
     >
-      <img
-        src="https://i.pinimg.com/564x/07/21/32/072132759e23ee009f4f9ba04bdc8845.jpg"
-        className={`
+      {" "}
+      <div className="relative">
+        <img
+          src="https://i.pinimg.com/564x/07/21/32/072132759e23ee009f4f9ba04bdc8845.jpg"
+          className={`
           w-full 
           h-[150px]
          `}
-      />
+        />
+        <svg
+          width="66"
+          height="66"
+          viewBox="0 0 66 66"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          name="Add"
+          className="absolute top-0 right-0 cursor-pointer"
+        >
+          <path
+            d="M54 33C54 44.598 44.598 54 33 54C21.402 54 12 44.598 12 33C12 21.402 21.402 12 33 12C44.598 12 54 21.402 54 33Z"
+            fill="#252525"
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M33 25C31.8954 25 31 25.8954 31 27V31H27C25.8954 31 25 31.8954 25 33C25 34.1046 25.8954 35 27 35H31V39C31 40.1046 31.8954 41 33 41C34.1046 41 35 40.1046 35 39V35H39C40.1046 35 41 34.1046 41 33C41 31.8954 40.1046 31 39 31H35V27C35 25.8954 34.1046 25 33 25Z"
+            fill="white"
+          />
+        </svg>
+      </div>
       <div
         className={`
         flex

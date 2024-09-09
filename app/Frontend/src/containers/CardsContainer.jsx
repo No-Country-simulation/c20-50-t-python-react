@@ -1,7 +1,12 @@
 import Card from "../components/card/Card";
 import PropTypes from "prop-types";
+import useCategory from "../store/useCategory";
+import useMenu from "../store/useMenu";
 
-const CardsContainer = ({ menu, order }) => {
+const CardsContainer = () => {
+  const { filteredMenu } = useMenu();
+
+  const { category } = useCategory();
   return (
     <div className="flex flex-col w-[66.2%]">
       <div
@@ -15,25 +20,42 @@ const CardsContainer = ({ menu, order }) => {
         font-semibold
         px-3
         content-center
+        uppercase
         `}
       >
-        CATEGORY
+        {category === "" ? "Comidas" : category}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 my-4">
-        {menu.map((food, key) => {
-          return (
-            <Card
-              key={key}
-              id={food.id}
-              title={food.title}
-              price={food.price}
-              description={food.description}
-              category={food.category}
-              agregados={food.agregados}
-            />
-          );
-        })}
+        {category === ""
+          ? filteredMenu.map((food, key) => {
+              return (
+                <Card
+                  key={key}
+                  id={food.id}
+                  title={food.title}
+                  price={food.price}
+                  description={food.description}
+                  category={food.category}
+                  agregados={food.agregados}
+                />
+              );
+            })
+          : filteredMenu.map((food, key) => {
+              if (food.category === category)
+                return (
+                  <Card
+                    key={key}
+                    id={food.id}
+                    title={food.title}
+                    price={food.price}
+                    description={food.description}
+                    category={food.category}
+                    agregados={food.agregados}
+                  />
+                );
+              else null;
+            })}
       </div>
     </div>
   );
@@ -42,6 +64,7 @@ const CardsContainer = ({ menu, order }) => {
 CardsContainer.propTypes = {
   menu: PropTypes.array,
   order: PropTypes.array,
+  category: PropTypes.string,
 };
 
 export default CardsContainer;

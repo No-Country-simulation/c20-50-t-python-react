@@ -1,8 +1,32 @@
-import Categories from "../components/categories/Categories";
 import PropTypes from "prop-types";
 import SearchBar from "../components/SearchBar";
+import { useNavigate, useParams } from "react-router-dom";
 
-const Navbar = ({ categories, category, setCategory }) => {
+import CategoryBox from "../components/CategoryBox";
+import { useEffect } from "react";
+import useCategory from "../store/useCategory";
+
+const Navbar = ({ categories }) => {
+  const { category, setCategory } = useCategory();
+  const navigate = useNavigate();
+  const params = useParams();
+
+  useEffect(() => {
+    category === "" ? navigate("/") : navigate(`/?category=${category}`);
+  }, [category, navigate]);
+
+  const handleCategoryChange = (event) => {
+    event.preventDefault();
+    const cat = event.target.value;
+
+    if (category !== cat) {
+      setCategory(cat);
+    }
+    if (category === cat) {
+      setCategory("");
+    }
+  };
+
   return (
     <div
       className={`
@@ -55,7 +79,30 @@ const Navbar = ({ categories, category, setCategory }) => {
             </svg>
           </button>
 
-          <Categories categories={categories} />
+          <div
+            className={`
+           flex 
+           flex-row  
+           mx-1 
+           items-center 
+           w-full 
+           justify-evenly
+           overflow-hidden
+      `}
+          >
+            {/*
+              Mapeamos el arreglo de categorías y renderizamos un CategoryBox por cada una
+            */}
+            {categories.map((category) => {
+              return (
+                <CategoryBox
+                  key={category}
+                  label={category}
+                  onClick={handleCategoryChange}
+                />
+              );
+            })}
+          </div>
 
           <button
             className={`
@@ -86,8 +133,6 @@ const Navbar = ({ categories, category, setCategory }) => {
 
 Navbar.propTypes = {
   categories: PropTypes.array.isRequired,
-  category: PropTypes.string.isRequired,
-  setCategory: PropTypes.func.isRequired,
 };
 
 export default Navbar;

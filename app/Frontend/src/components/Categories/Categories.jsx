@@ -12,11 +12,11 @@ const Categories = ({ categories }) => {
     // Contenedor principal con estilos de flexbox
     <div
       className={`
-        flex 
-        flex-row  
-        mx-1 
-        items-center 
-        w-full 
+        flex
+        flex-row
+        mx-1
+        items-center
+        w-full
         justify-evenly
         overflow-hidden
       `}
