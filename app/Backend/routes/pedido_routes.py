@@ -1,8 +1,14 @@
 from flask import Blueprint, request, jsonify
-from models import db, Pedido
-from datetime import datetime
+from models import db, Pedido, Menu, Agregado
+from schemas import MenuSchema, AgregadoSchema
+from datetime import datetime, timedelta
+import pytz
+from middleware.auth_middleware import login_required, check_permissions
 
 pedido_bp = Blueprint('pedido', __name__)
+
+menu_schema = MenuSchema()
+agregado_schema = AgregadoSchema(many=True)
 
 @pedido_bp.route('/pedidos', methods=['POST'])
 def create_pedido():
@@ -40,3 +46,149 @@ def create_pedido():
     db.session.commit()
 
     return jsonify({"message": "Pedido creado con éxito"}), 201
+
+@pedido_bp.route('/pedidos', methods=['GET'])
+def get_pedidos():
+    pedidos = Pedido.query.all()
+    result = []
+
+    for pedido in pedidos:
+        menu_item = Menu.query.get(pedido.id_menu)
+        agregados = Agregado.query.filter_by(id_menu=pedido.id_menu).all()
+        
+        pedido_data = {
+            "id": pedido.id,
+            "id_mesa": pedido.id_mesa,
+            "cantidad": pedido.cantidad,
+            "solicitado": pedido.solicitado,
+            "entregado": pedido.entregado,
+            "hentrega": pedido.hentrega,
+            "producto": menu_schema.dump(menu_item),
+            "agregados": agregado_schema.dump(agregados)
+        }
+        
+        result.append(pedido_data)
+    
+    return jsonify(result), 200
+
+@pedido_bp.route('/pedidos/<int:id>', methods=['GET'])
+def get_pedido(id):
+    pedido = Pedido.query.get_or_404(id)
+    
+    menu_item = Menu.query.get(pedido.id_menu)
+    agregados = Agregado.query.filter_by(id_menu=pedido.id_menu).all()
+
+    pedido_data = {
+        "id": pedido.id,
+        "id_mesa": pedido.id_mesa,
+        "cantidad": pedido.cantidad,
+        "solicitado": pedido.solicitado,
+        "entregado": pedido.entregado,
+        "hentrega": pedido.hentrega,
+        "producto": menu_schema.dump(menu_item),
+        "agregados": agregado_schema.dump(agregados)
+    }
+    
+    return jsonify(pedido_data), 200
+
+@pedido_bp.route('/pedidos/<int:id>/entregar', methods=['PUT'])
+@login_required
+@check_permissions(1)
+def marcar_entregado(id):
+    pedido = Pedido.query.get_or_404(id)
+
+    if pedido.entregado:
+        return jsonify({"message": "El pedido ya ha sido entregado"}), 400
+
+    timezone = pytz.timezone('America/Argentina/Buenos_Aires')  # Cambia esto según la zona horaria deseada
+    local_time = datetime.now(timezone)
+
+    pedido.entregado = True
+    pedido.hentrega = local_time
+
+    db.session.commit()
+
+    return jsonify({
+        "message": "Pedido marcado como entregado", 
+        "pedido": {
+            "id": pedido.id,
+            "entregado": pedido.entregado,
+            "hentrega": pedido.hentrega
+        }
+    }), 200
+
+@pedido_bp.route('/pedidos/<int:id>/corregir', methods=['PUT'])
+@login_required
+@check_permissions(2)
+def corregir_pedido(id):
+    pedido = Pedido.query.get_or_404(id)
+
+    timezone = pytz.timezone('America/Argentina/Buenos_Aires')  # Cambia según la zona horaria deseada
+    current_time = datetime.now(timezone)
+
+    tiempo_solicitado = pedido.solicitado.astimezone(timezone)
+    tiempo_limite = tiempo_solicitado + timedelta(minutes=3)
+
+    if current_time > tiempo_limite:
+        return jsonify({"message": "El tiempo para corregir el pedido ha expirado"}), 403
+
+    if pedido.entregado:
+        return jsonify({"message": "No se puede corregir un pedido que ya ha sido entregado"}), 400
+
+    data = request.get_json()
+
+    pedido.id_menu = data.get('id_menu', pedido.id_menu)
+    pedido.id_agregado = data.get('id_agregado', pedido.id_agregado)
+    pedido.cantidad = data.get('cantidad', pedido.cantidad)
+
+    db.session.commit()
+
+    return jsonify({
+        "message": "Pedido corregido con éxito", 
+        "pedido": {
+            "id": pedido.id,
+            "id_menu": pedido.id_menu,
+            "id_agregado": pedido.id_agregado,
+            "cantidad": pedido.cantidad,
+            "solicitado": pedido.solicitado,
+            "entregado": pedido.entregado,
+            "hentrega": pedido.hentrega
+        }
+    }), 200
+
+@pedido_bp.route('/pedidos/<int:id>', methods=['DELETE'])
+@login_required
+@check_permissions(1)
+def delete_pedido(id):
+    pedido = Pedido.query.get_or_404(id)
+
+    timezone = pytz.timezone('America/Argentina/Buenos_Aires')  # Ajusta según la zona horaria
+    current_time = datetime.now(timezone)
+
+    tiempo_solicitado = pedido.solicitado.astimezone(timezone)
+    tiempo_limite = tiempo_solicitado + timedelta(minutes=3)
+
+    if current_time > tiempo_limite:
+        return jsonify({"message": "No se puede eliminar el pedido después de 3 minutos"}), 403
+
+    if pedido.entregado:
+        return jsonify({"message": "No se puede eliminar un pedido que ya ha sido entregado"}), 400
+
+    db.session.delete(pedido)
+    db.session.commit()
+
+    return jsonify({"message": "Pedido eliminado con éxito"}), 200
+
+@pedido_bp.route('/pedidos/<int:id>/forzar-eliminar', methods=['DELETE'])
+@login_required
+@check_permissions(2)
+def force_delete_pedido(id):
+    pedido = Pedido.query.get_or_404(id)
+
+    if pedido.entregado:
+        return jsonify({"message": "No se puede eliminar un pedido que ya ha sido entregado"}), 400
+
+    db.session.delete(pedido)
+    db.session.commit()
+
+    return jsonify({"message": "Pedido eliminado con éxito, sin restricción de tiempo"}), 200

@@ -2,6 +2,7 @@ from flask import Flask
 from flask_migrate import Migrate
 from models import db
 from routes import init_app
+from flask_jwt_extended import JWTManager
 
 def create_app():
     app = Flask(__name__)
@@ -9,7 +10,9 @@ def create_app():
     
     db.init_app(app)
     migrate = Migrate(app, db)
-    
+
+    jwt = JWTManager(app)
+
     init_app(app)
     
     return app

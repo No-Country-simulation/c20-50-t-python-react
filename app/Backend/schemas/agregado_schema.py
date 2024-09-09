@@ -6,3 +6,4 @@ class AgregadoSchema(Schema):
     nombre = fields.Str(required=True)
     precio = fields.Float(required=True)
     descripcion = fields.Str()
+    menu = fields.Nested('MenuSchema', only=['id', 'producto'])
