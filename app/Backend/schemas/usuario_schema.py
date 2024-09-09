@@ -4,4 +4,4 @@ class UsuarioSchema(Schema):
     id = fields.Int(dump_only=True)
     nombre = fields.Str(required=True)
     email = fields.Str(required=True)
-    id_permiso = fields.Int(required=True)
+    id_permiso = fields.Int(missing=None)

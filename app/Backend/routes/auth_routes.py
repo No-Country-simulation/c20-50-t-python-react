@@ -1,73 +1,65 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, Usuario, Permiso
-from schemas import UsuarioSchema
-import jwt
-import datetime
-from functools import wraps
+from marshmallow import ValidationError
+from schemas import UsuarioSchema, UsuarioRegisterSchema
+from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
+from datetime import timedelta
 
 auth_bp = Blueprint('auth', __name__)
 usuario_schema = UsuarioSchema()
-
-
-def token_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        token = request.headers.get('Authorization')
-
-        if not token:
-            return jsonify({'message': 'Token es requerido'}), 403
-
-        try:
-            data = jwt.decode(token, "clave_secreta", algorithms=["HS256"])
-            current_user = Usuario.query.filter_by(id=data['id']).first()
-        except:
-            return jsonify({'message': 'Token es inválido'}), 403
-
-        return f(current_user, *args, **kwargs)
-
-    return decorated
-
+usuario_register_schema = UsuarioRegisterSchema()
 
 @auth_bp.route('/auth/register', methods=['POST'])
 def register():
-    data = request.get_json()
+    data = request.json
+    nombre = data.get('nombre')
+    email = data.get('email')
+    password = data.get('password')
+    id_permiso = data.get('id_permiso')
 
-    hashed_password = generate_password_hash(data['password'], method='sha256')
+    if not all([nombre, email, password]):
+        return jsonify({'message': 'Missing fields'}), 400
 
-    new_user = Usuario(
-        nombre=data['nombre'],
-        email=data['email'],
-        password=hashed_password,
-        id_permiso=data.get('id_permiso', 1)  
-    )
+    if id_permiso is not None and not isinstance(id_permiso, int):
+        return jsonify({'message': 'Invalid id_permiso'}), 400
 
-    db.session.add(new_user)
+    # Verificar si el usuario ya existe
+    existing_user = Usuario.query.filter_by(email=email).first()
+    if existing_user:
+        return jsonify({'message': 'User already exists'}), 400
+
+    # Crear el nuevo usuario
+    user = Usuario(nombre=nombre, email=email, id_permiso=id_permiso)
+    user.set_password(password)  # Usar el método set_password para establecer la contraseña
+
+    db.session.add(user)
     db.session.commit()
 
-    return jsonify({'message': 'Nuevo usuario registrado con éxito'}), 201
-
+    return jsonify({'message': 'User created'}), 201
 
 @auth_bp.route('/auth/login', methods=['POST'])
 def login():
     data = request.get_json()
     user = Usuario.query.filter_by(email=data['email']).first()
 
-    if not user or not check_password_hash(user.password, data['password']):
+    if not user or not user.check_password(data['password']):
         return jsonify({'message': 'Credenciales inválidas'}), 401
 
-    
-    token = jwt.encode({
-        'id': user.id,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)
-    }, "clave_secreta", algorithm="HS256")
+    # Usar create_access_token de flask_jwt_extended para generar el token
+    token = create_access_token(identity=user.id, expires_delta=timedelta(hours=24))
 
     return jsonify({'token': token}), 200
 
-
 @auth_bp.route('/auth/permiso', methods=['GET'])
-@token_required
-def verificar_permiso(current_user):
+@jwt_required()
+def verificar_permiso():
+    current_user_id = get_jwt_identity()
+    current_user = Usuario.query.get(current_user_id)
+    
+    if not current_user:
+        return jsonify({'message': 'Usuario no encontrado'}), 404
+
     permiso = Permiso.query.filter_by(id=current_user.id_permiso).first()
 
     if not permiso:
@@ -75,6 +67,31 @@ def verificar_permiso(current_user):
 
     return jsonify({
         'id_usuario': current_user.id,
-        'permiso': permiso.nombre,
+        'permiso': permiso.descripcion,
         'nivel': permiso.nivel
     }), 200
+
+@auth_bp.route('/auth/users/<int:user_id>', methods=['DELETE'])
+@jwt_required()
+def delete_user(user_id):
+    current_user_id = get_jwt_identity()
+    user = Usuario.query.get(user_id)
+    
+    if not user:
+        return jsonify({'message': 'Usuario no encontrado'}), 404
+
+    db.session.delete(user)
+    db.session.commit()
+
+    return jsonify({'message': 'Usuario eliminado con éxito'}), 200
+
+@auth_bp.route('/auth/users', methods=['GET'])
+@jwt_required()
+def get_users():
+    users = Usuario.query.all()
+    return jsonify([{
+        'id': user.id,
+        'nombre': user.nombre,
+        'email': user.email,
+        'id_permiso': user.id_permiso
+    } for user in users]), 200

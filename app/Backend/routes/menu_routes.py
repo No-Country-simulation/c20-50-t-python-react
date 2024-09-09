@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from models import db, Menu, Agregado, Imagen
 from schemas import MenuSchema, AgregadoSchema, ImagenSchema
+from middleware.auth_middleware import login_required, check_permissions
 
 menu_bp = Blueprint('menu', __name__)
 
@@ -22,6 +23,8 @@ def get_menu(id):
     return jsonify(menu_data), 200
 
 @menu_bp.route('/menu/<int:id>', methods=['PUT'])
+@login_required
+@check_permissions(2)
 def update_menu(id):
     menu = Menu.query.get_or_404(id)
     data = request.get_json()
@@ -57,6 +60,8 @@ def update_menu(id):
     return jsonify(menu_data), 200
 
 @menu_bp.route('/menu', methods=['POST'])
+@login_required
+@check_permissions(2)
 def create_menu():
     data = request.get_json()
 
@@ -94,6 +99,8 @@ def create_menu():
     return jsonify(menu_data), 201
 
 @menu_bp.route('/menu/<int:id>', methods=['DELETE'])
+@login_required
+@check_permissions(2)
 def delete_menu(id):
     menu_item = Menu.query.get_or_404(id)
 
