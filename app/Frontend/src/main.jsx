@@ -7,6 +7,7 @@ import { createRoot } from "react-dom/client";
 // Importaciones de componentes
 import App from "./App.jsx";
 import ErrorPage from "./Error-page.jsx";
+import AgendaPedidos from "./components/AgendaPedidos.jsx"
 
 // Importaciones de estilos
 import "./index.css";
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: "/cocina",
+    element: <AgendaPedidos/>
   },
 ]);
 
