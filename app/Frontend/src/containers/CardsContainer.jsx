@@ -1,6 +1,6 @@
 import Card from "../components/card/Card";
 import PropTypes from "prop-types";
-import useCategory from "../store/useCategory";
+import useCategory from "../hooks/useCategory";
 import useMenu from "../store/useMenu";
 
 const CardsContainer = () => {

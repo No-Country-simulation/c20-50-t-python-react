@@ -1,31 +1,26 @@
 import PropTypes from "prop-types";
 import SearchBar from "../components/SearchBar";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import CategoryBox from "../components/CategoryBox";
-import { useEffect } from "react";
-import useCategory from "../store/useCategory";
+import { useCallback, useEffect } from "react";
+import useCategory from "../hooks/useCategory";
 
 const Navbar = ({ categories }) => {
   const { category, setCategory } = useCategory();
   const navigate = useNavigate();
-  const params = useParams();
 
   useEffect(() => {
     category === "" ? navigate("/") : navigate(`/?category=${category}`);
   }, [category, navigate]);
 
-  const handleCategoryChange = (event) => {
-    event.preventDefault();
-    const cat = event.target.value;
-
-    if (category !== cat) {
-      setCategory(cat);
-    }
-    if (category === cat) {
-      setCategory("");
-    }
-  };
+  const handleCategoryChange = useCallback(
+    (event) => {
+      const cat = event.target.value;
+      setCategory(cat === category ? "" : cat);
+    },
+    [category, setCategory]
+  );
 
   return (
     <div

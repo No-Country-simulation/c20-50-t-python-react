@@ -1,7 +1,7 @@
 // Importamos la biblioteca PropTypes para validar los tipos de props
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import useCategory from "../store/useCategory";
+import useCategory from "../hooks/useCategory";
 
 /**
  * Componente CategoryBox
