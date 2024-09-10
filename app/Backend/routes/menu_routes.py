@@ -65,38 +65,50 @@ def update_menu(id):
 def create_menu():
     data = request.get_json()
 
-    new_menu = Menu(
-        producto=data['producto'],
-        precio=data['precio'],
-        descripcion=data.get('descripcion', ''),
-        categoria=data.get('categoria', '')
-    )
-
-    db.session.add(new_menu)
-    db.session.commit()  
-
-    agregados_data = data.get('agregados', [])
-    agregados = [Agregado(
-        id_menu=new_menu.id,
-        nombre=agregado_data['nombre'],
-        precio=agregado_data['precio'],
-        descripcion=agregado_data.get('descripcion', '')
-    ) for agregado_data in agregados_data]
     
-    db.session.add_all(agregados)
+    if isinstance(data, dict):
+        data = [data]  
 
-    imagenes_data = data.get('imagenes', [])
-    imagenes = [Imagen(
-        id_menu=new_menu.id,
-        url=imagen_data['url']
-    ) for imagen_data in imagenes_data]
+    elif not isinstance(data, list):
+        return jsonify({"error": "La solicitud debe contener un objeto o una lista de menús"}), 400
+
+    created_menus = []
     
-    db.session.add_all(imagenes)
+    for menu_data in data:
+       
+        new_menu = Menu(
+            producto=menu_data['producto'],
+            precio=menu_data['precio'],
+            descripcion=menu_data.get('descripcion', ''),
+            categoria=menu_data.get('categoria', '')
+        )
+        db.session.add(new_menu)
+        db.session.commit()  
 
-    db.session.commit()
+        agregados_data = menu_data.get('agregados', [])
+        agregados = [Agregado(
+            id_menu=new_menu.id,
+            nombre=agregado_data['nombre'],
+            precio=agregado_data['precio'],
+            descripcion=agregado_data.get('descripcion', '')
+        ) for agregado_data in agregados_data]
+        
+        db.session.add_all(agregados)
 
-    menu_data = menu_schema.dump(new_menu)
-    return jsonify(menu_data), 201
+        imagenes_data = menu_data.get('imagenes', [])
+        imagenes = [Imagen(
+            id_menu=new_menu.id,
+            url=imagen_data['url']
+        ) for imagen_data in imagenes_data]
+        
+        db.session.add_all(imagenes)
+
+        db.session.commit()  
+
+        created_menus.append(menu_schema.dump(new_menu))
+
+    return jsonify(created_menus), 201
+
 
 @menu_bp.route('/menu/<int:id>', methods=['DELETE'])
 @login_required
