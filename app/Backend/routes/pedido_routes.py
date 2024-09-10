@@ -14,38 +14,52 @@ agregado_schema = AgregadoSchema(many=True)
 def create_pedido():
     data = request.get_json()
 
-    id_menu = data.get('id_menu')
-    id_mesa = data.get('id_mesa')
-    agregados = data.get('agregados', [])
-    cantidad = data.get('cantidad', 1)
+    if isinstance(data, dict):
+        data = [data]
 
-    for id_agregado in agregados:
-        nuevo_pedido = Pedido(
-            id_mesa=id_mesa,
-            id_menu=id_menu,
-            id_agregado=id_agregado,
-            cantidad=cantidad,
-            solicitado=datetime.utcnow(),
-            entregado=False,
-            hentrega=None
-        )
-        db.session.add(nuevo_pedido)
+    for pedido_data in data:
+        id_menu = pedido_data.get('id_menu')
+        id_mesa = pedido_data.get('id_mesa')
+        agregados = pedido_data.get('agregados', [])
+        cantidad = pedido_data.get('cantidad', 1)
 
-    if not agregados:
-        nuevo_pedido = Pedido(
-            id_mesa=id_mesa,
-            id_menu=id_menu,
-            id_agregado=None,
-            cantidad=cantidad,
-            solicitado=datetime.utcnow(),
-            entregado=False,
-            hentrega=None
-        )
-        db.session.add(nuevo_pedido)
+        menu_item = Menu.query.get(id_menu)
+        if not menu_item:
+            return jsonify({"message": f"El menú con ID {id_menu} no existe"}), 400
+
+        for id_agregado in agregados:
+            agregado = Agregado.query.filter_by(id=id_agregado, id_menu=id_menu).first()
+            if not agregado:
+                return jsonify({"message": f"Opción de agregado incorrecta: el agregado con ID {id_agregado} no pertenece al menú {id_menu}"}), 400
+
+            nuevo_pedido = Pedido(
+                id_mesa=id_mesa,
+                id_menu=id_menu,
+                id_agregado=id_agregado,
+                cantidad=cantidad,
+                solicitado=datetime.utcnow(),
+                entregado=False,
+                hentrega=None
+            )
+            db.session.add(nuevo_pedido)
+
+        if not agregados:
+            nuevo_pedido = Pedido(
+                id_mesa=id_mesa,
+                id_menu=id_menu,
+                id_agregado=None,
+                cantidad=cantidad,
+                solicitado=datetime.utcnow(),
+                entregado=False,
+                hentrega=None
+            )
+            db.session.add(nuevo_pedido)
 
     db.session.commit()
 
-    return jsonify({"message": "Pedido creado con éxito"}), 201
+    return jsonify({"message": "Pedido(s) creado(s) con éxito"}), 201
+
+
 
 @pedido_bp.route('/pedidos', methods=['GET'])
 def get_pedidos():
