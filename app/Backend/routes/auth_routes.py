@@ -24,14 +24,13 @@ def register():
     if id_permiso is not None and not isinstance(id_permiso, int):
         return jsonify({'message': 'Invalid id_permiso'}), 400
 
-    # Verificar si el usuario ya existe
+   
     existing_user = Usuario.query.filter_by(email=email).first()
     if existing_user:
         return jsonify({'message': 'User already exists'}), 400
 
-    # Crear el nuevo usuario
     user = Usuario(nombre=nombre, email=email, id_permiso=id_permiso)
-    user.set_password(password)  # Usar el método set_password para establecer la contraseña
+    user.set_password(password)  
 
     db.session.add(user)
     db.session.commit()
@@ -46,7 +45,6 @@ def login():
     if not user or not user.check_password(data['password']):
         return jsonify({'message': 'Credenciales inválidas'}), 401
 
-    # Usar create_access_token de flask_jwt_extended para generar el token
     token = create_access_token(identity=user.id, expires_delta=timedelta(hours=24))
 
     return jsonify({'token': token}), 200
