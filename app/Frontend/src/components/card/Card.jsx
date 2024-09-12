@@ -1,8 +1,28 @@
 import PropTypes from "prop-types";
-import useCart from "../../store/useCart";
+import useOrderModal from "../../hooks/useOrderModal";
 
-const Card = ({ id, title, price, description, category }) => {
-  const { order, subTotal, addDish, removeDish } = useCart();
+const Card = ({
+  id,
+  title,
+  price,
+  image,
+  description,
+  category,
+  agregados,
+}) => {
+  const orderModal = useOrderModal();
+
+  const handleClick = () => {
+    const newOrder = {
+      title: title,
+      price: price,
+      body: description,
+      image: image ? image : "",
+      agregados: agregados ? agregados : [],
+    };
+    orderModal.setInfo(newOrder);
+    orderModal.onOpen();
+  };
 
   return (
     <div
@@ -13,6 +33,7 @@ const Card = ({ id, title, price, description, category }) => {
     `}
       id={id}
       name={category}
+      onClick={() => handleClick()}
     >
       {" "}
       <div className="relative">
@@ -23,7 +44,7 @@ const Card = ({ id, title, price, description, category }) => {
           h-[150px]
          `}
         />
-        <svg
+        {/* <svg
           width="66"
           height="66"
           viewBox="0 0 66 66"
@@ -42,7 +63,7 @@ const Card = ({ id, title, price, description, category }) => {
             d="M33 25C31.8954 25 31 25.8954 31 27V31H27C25.8954 31 25 31.8954 25 33C25 34.1046 25.8954 35 27 35H31V39C31 40.1046 31.8954 41 33 41C34.1046 41 35 40.1046 35 39V35H39C40.1046 35 41 34.1046 41 33C41 31.8954 40.1046 31 39 31H35V27C35 25.8954 34.1046 25 33 25Z"
             fill="white"
           />
-        </svg>
+        </svg> */}
       </div>
       <div
         className={`
@@ -68,11 +89,11 @@ const Card = ({ id, title, price, description, category }) => {
         >
           {title}
         </h2>
-        <div className="overflow-clip text-ellipsis line-clamp-2">
+        <div className="overflow-clip text-ellipsis line-clamp-2 text-xs md:text-sm ">
           {description}
         </div>
         <div className="rounded-lg bg-[#C0C0C0] p-1 w-[78px] text-center font-semibold">
-          {price} $
+          ${price}
         </div>
       </div>
     </div>
@@ -83,6 +104,7 @@ Card.propTypes = {
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
+  image: PropTypes.string,
   description: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   agregados: PropTypes.array.isRequired,

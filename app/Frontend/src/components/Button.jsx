@@ -12,8 +12,6 @@ const Button = ({ label, onClick, disabled, outline }) => {
         w-full 
         h-12 
         rounded-[10px] 
-        
-        
         font-inter
         font-bold
         text-lg

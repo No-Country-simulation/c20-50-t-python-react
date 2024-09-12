@@ -16,6 +16,7 @@ import ToasterProvider from "./providers/ToasterProvider.jsx";
 
 // Importaciones de react-router-dom
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import OrderModal from "./components/modals/OrderModal.jsx";
 
 // Creación del router
 const router = createBrowserRouter([
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ToasterProvider />
+    <OrderModal />
     <RouterProvider router={router} />
   </StrictMode>
 );
