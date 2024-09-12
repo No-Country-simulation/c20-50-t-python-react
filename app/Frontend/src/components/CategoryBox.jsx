@@ -1,5 +1,7 @@
 // Importamos la biblioteca PropTypes para validar los tipos de props
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import useCategory from "../hooks/useCategory";
 
 /**
  * Componente CategoryBox
@@ -9,13 +11,20 @@ import PropTypes from "prop-types";
  * @param {string} category - La categoría a mostrar
  * @returns {JSX.Element} El componente CategoryBox
  */
-const CategoryBox = ({ category }) => {
+const CategoryBox = ({ label, onClick }) => {
+  const { category } = useCategory();
+  const [selected, setSelected] = useState(false);
+
+  useEffect(() => {
+    category === label ? setSelected(true) : setSelected(false);
+  }, [category, selected, label]);
+
   return (
     // Contenedor con estilos de caja
-    <div
+    <button
       className={`
         box-border 
-        w-[20%] 
+        flex-1 
         text-center 
         py-3 
         transition 
@@ -23,25 +32,29 @@ const CategoryBox = ({ category }) => {
         text-[#4A4A4A] 
         hover:text-white 
         rounded-[10px]
-      `}
-    >
-      {/* Texto de la categoría con estilos de fuente */}
-      <span
-        className={`
-          text-lg 
+        cursor-pointer
+
+          text-sm
+          md:text-base
+          xl:text-lg
           font-semibold 
           leading-4
-        `}
-      >
-        {category}
-      </span>
-    </div>
+          capitalize
+
+        ${selected ? "bg-black text-white" : null}
+      `}
+      onClick={onClick}
+      value={label}
+    >
+      {label}
+    </button>
   );
 };
 
 // Definimos los tipos de props esperados
 CategoryBox.propTypes = {
-  category: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 // Exportamos el componente por defecto

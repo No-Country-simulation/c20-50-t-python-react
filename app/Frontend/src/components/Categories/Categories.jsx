@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import PropTypes from "prop-types";
 import CategoryBox from "../CategoryBox";
 
@@ -13,11 +12,11 @@ const Categories = ({ categories }) => {
     // Contenedor principal con estilos de flexbox
     <div
       className={`
-        flex 
-        flex-row  
-        mx-1 
-        items-center 
-        w-full 
+        flex
+        flex-row
+        mx-1
+        items-center
+        w-full
         justify-evenly
         overflow-hidden
       `}
@@ -25,8 +24,8 @@ const Categories = ({ categories }) => {
       {/*
         Mapeamos el arreglo de categorías y renderizamos un CategoryBox por cada una
       */}
-      {categories.map((category, key) => {
-        return <CategoryBox key={key} category={category} />;
+      {categories.map((item) => {
+        return <CategoryBox key={item} label={item} />;
       })}
     </div>
   );
@@ -36,24 +35,6 @@ const Categories = ({ categories }) => {
 Categories.propTypes = {
   // El prop 'categories' es un arreglo requerido
   categories: PropTypes.array.isRequired,
-=======
-import Proptypes from "prop-types";
-
-const Categories = ({ categories }) => {
-  console.log(categories);
-
-  return categories.map((category, key) => {
-    return (
-      <div key={key} className="px-4">
-        {category}
-      </div>
-    );
-  });
-};
-
-Categories.propTypes = {
-  categories: Proptypes.array.isRequired,
->>>>>>> e9e517f662816aaec4469966c803a2f5651a4b0e
 };
 
 export default Categories;

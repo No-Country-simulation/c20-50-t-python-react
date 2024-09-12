@@ -1,13 +1,65 @@
-import Categories from "../components/categories/Categories";
 import PropTypes from "prop-types";
 import SearchBar from "../components/SearchBar";
+import { useNavigate } from "react-router-dom";
+
+import CategoryBox from "../components/CategoryBox";
+import { useCallback, useEffect } from "react";
+import useCategory from "../hooks/useCategory";
 
 const Navbar = ({ categories }) => {
+  const { category, setCategory } = useCategory();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    category === "" ? navigate("/") : navigate(`/?category=${category}`);
+  }, [category, navigate]);
+
+  const handleCategoryChange = useCallback(
+    (event) => {
+      const cat = event.target.value;
+      setCategory(cat === category ? "" : cat);
+    },
+    [category, setCategory]
+  );
+
   return (
-    <div className="w-full py-6">
-      <div className="box-border flex flex-row w-[87.5%] mx-auto justify-evenly rounded-lg bg-[#E6E6E6] h-[64px] items-center">
-        <div className="flex flex-row px-2 w-2/3 justify-evenly">
-          <button>
+    <div
+      className={`
+      w-full 
+      py-4
+    `}
+    >
+      <div
+        className={`
+        box-border 
+        flex 
+        flex-row 
+        gap-6 
+        w-[87.5%] 
+        mx-auto 
+        px-2 
+        justify-evenly 
+        rounded-lg 
+        bg-[#E6E6E6] 
+        h-[64px] 
+        items-center
+      `}
+      >
+        <div
+          className={`
+          flex 
+          flex-row 
+          px-2 
+          w-2/3 
+          gap-2
+        `}
+        >
+          <button
+            className={`
+            flex 
+            items-center
+          `}
+          >
             <svg
               width="24"
               height="24"
@@ -22,9 +74,37 @@ const Navbar = ({ categories }) => {
             </svg>
           </button>
 
-          <Categories categories={categories} />
+          <div
+            className={`
+           flex 
+           flex-row  
+           mx-1 
+           items-center 
+           w-full 
+           justify-evenly
+           overflow-hidden
+      `}
+          >
+            {/*
+              Mapeamos el arreglo de categorías y renderizamos un CategoryBox por cada una
+            */}
+            {categories.map((category) => {
+              return (
+                <CategoryBox
+                  key={category}
+                  label={category}
+                  onClick={handleCategoryChange}
+                />
+              );
+            })}
+          </div>
 
-          <button>
+          <button
+            className={`
+            flex 
+            items-center
+          `}
+          >
             <svg
               width="24"
               height="24"
