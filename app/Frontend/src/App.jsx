@@ -28,7 +28,7 @@ const App = () => {
         flex-col 
         h-screen 
         font-roboto
-      `}
+        `}
     >
       {/* Header de la aplicación */}
       <Header />

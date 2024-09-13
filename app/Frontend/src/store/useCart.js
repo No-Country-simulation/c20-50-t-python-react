@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 const useCart = create((set) => ({
   // dishes: [], // array de objetos que representan cada platillo
-  order: [], // array de objetos que representan la orden de comida
+  orders: [], // array de objetos que representan la orden de comida
   subTotal: 0,
   total: 0,
 

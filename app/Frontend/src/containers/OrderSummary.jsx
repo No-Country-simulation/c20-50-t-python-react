@@ -4,7 +4,7 @@ import useCart from "../store/useCart";
 import PropTypes from "prop-types";
 
 const OrderSummary = () => {
-  const { order, total, subTotal } = useCart();
+  const { orders, total, subTotal } = useCart();
 
   return (
     <div
@@ -42,7 +42,7 @@ const OrderSummary = () => {
         </span>
       </div>
 
-      {order.length === 0 ? (
+      {orders.length === 0 ? (
         <div className=" px-4  ">
           <div
             className={`
@@ -76,7 +76,7 @@ const OrderSummary = () => {
         gap-3
         `}
         >
-          {order.map((food, key) => {
+          {orders.map((food, key) => {
             return (
               <Order
                 key={key}
@@ -135,7 +135,7 @@ const OrderSummary = () => {
         </div>
       </div>
 
-      {order.length === 0 ? (
+      {orders.length === 0 ? (
         <div
           className={`
         w-full 
