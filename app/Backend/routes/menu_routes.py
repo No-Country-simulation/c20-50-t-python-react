@@ -65,45 +65,45 @@ def update_menu(id):
 def create_menu():
     data = request.get_json()
 
-    
     if isinstance(data, dict):
         data = [data]  
-
     elif not isinstance(data, list):
         return jsonify({"error": "La solicitud debe contener un objeto o una lista de menús"}), 400
 
     created_menus = []
-    
+
     for menu_data in data:
-       
+        # Crear el nuevo producto (menu)
         new_menu = Menu(
             producto=menu_data['producto'],
             precio=menu_data['precio'],
-            descripcion=menu_data.get('descripcion', ''),
-            categoria=menu_data.get('categoria', '')
+            descripcion=menu_data.get('descripcion', ''),  
+            categoria=menu_data.get('categoria', '')  
         )
         db.session.add(new_menu)
         db.session.commit()  
 
+        # Crear agregados si están presentes (opcional)
         agregados_data = menu_data.get('agregados', [])
-        agregados = [Agregado(
-            id_menu=new_menu.id,
-            nombre=agregado_data['nombre'],
-            precio=agregado_data['precio'],
-            descripcion=agregado_data.get('descripcion', '')
-        ) for agregado_data in agregados_data]
-        
-        db.session.add_all(agregados)
+        if agregados_data:  
+            agregados = [Agregado(
+                id_menu=new_menu.id,
+                nombre=agregado_data['nombre'],
+                precio=agregado_data['precio'],
+                descripcion=agregado_data.get('descripcion', '')  
+            ) for agregado_data in agregados_data]
+            db.session.add_all(agregados)
 
+        # Crear imágenes si están presentes (opcional)
         imagenes_data = menu_data.get('imagenes', [])
-        imagenes = [Imagen(
-            id_menu=new_menu.id,
-            url=imagen_data['url']
-        ) for imagen_data in imagenes_data]
-        
-        db.session.add_all(imagenes)
+        if imagenes_data:  
+            imagenes = [Imagen(
+                id_menu=new_menu.id,
+                url=imagen_data['url']
+            ) for imagen_data in imagenes_data]
+            db.session.add_all(imagenes)
 
-        db.session.commit()  
+        db.session.commit()
 
         created_menus.append(menu_schema.dump(new_menu))
 
