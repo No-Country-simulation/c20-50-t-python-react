@@ -73,19 +73,10 @@ Restaurant App es una aplicación web diseñada para mejorar la experiencia tant
    - **Correo:** anghie.parker@gmail.com  
    - **LinkedIn:** [linkedin.com/in/anghela-anzaldo-2a7374173](https://linkedin.com/in/anghela-anzaldo-2a7374173)
 
-5. **Benjamin Diaz**  
-   - **Rol:** Back End  
-   - **Correo:** oliver125125@protonmail.com
-
 6. **Brenda Camaño**  
    - **Rol:** UI/UX  
    - **Correo:** Brendacamano@gmail.com  
    - **LinkedIn:** [https://www.linkedin.com/in/brendacamano/](https://www.linkedin.com/in/brendacamano/)
-
-7. **Yesenia Vásquez**  
-   - **Rol:** UX/UI  
-   - **Correo:** geraldine.vasquez142@gmail.com  
-   - **LinkedIn:** [https://www.linkedin.com/in/yesenia-vasquez/](https://www.linkedin.com/in/yesenia-vasquez/)
 
 ## **Tecnologías**
 - **Frontend:**
