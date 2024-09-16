@@ -27,8 +27,8 @@ export default {
       },
     },
     animation: {
-      blink: "blink 1s infinite",
-      buttonHover: "buttonHover 2s",
+      blink: "blink 2s infinite",
+
       pulse_delay_200: "pulse 1s infinite 0.2s",
       pulse_delay_400: "pulse 1s infinite 0.4s",
     },
@@ -37,12 +37,6 @@ export default {
         "0%": { opacity: "1" },
         "50%": { opacity: "0.5" },
         "100%": { opacity: "1" },
-      },
-      buttonHover: {
-        "0%": { opacity: "0.5", scale: "0.5" },
-
-        "50%": { fill: "gray-600", scale: "0.75" },
-        "100%": { opacity: "1", fill: "black", scale: "1" },
       },
     },
     colors: {

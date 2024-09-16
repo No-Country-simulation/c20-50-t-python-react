@@ -15,6 +15,8 @@ import AgendaPedidos from "./views/AgendaPedidos.jsx";
 import ManagePanel from "./views/ManagePanel.jsx";
 import MesaPage from "./views/MesaPage.jsx";
 import "./index.css";
+import ManagePanel from "./views/ManagePanel.jsx";
+import WaitressModal from "./components/modals/WaitressModal.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,16 +44,19 @@ const router = createBrowserRouter([
         path: "pedidos",
         element: <AgendaPedidos />,
       },
+      {
+        path: "manage",
+        element: <ManagePanel />,
+      },
     ],
   },
 ]);
 
-
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ToasterProvider />
+    <WaitressModal />
     <OrderModal />
     <RouterProvider router={router} />
-
   </StrictMode>
 );
