@@ -131,6 +131,44 @@ def marcar_entregado(id):
         }
     }), 200
 
+def actualizar_pedido(pedido, data):
+    
+    pedido.id_menu = data.get('id_menu', pedido.id_menu)
+    pedido.cantidad = data.get('cantidad', pedido.cantidad)
+
+    nuevos_agregados = data.get('agregados', [])
+    
+    if nuevos_agregados is not None:
+
+        agregados_actuales = Agregado.query.filter_by(id_menu=pedido.id_menu).all()
+
+        ids_agregados_actuales = {agregado.id for agregado in agregados_actuales}
+        ids_nuevos_agregados = set(nuevos_agregados)
+
+        agregados_a_eliminar = ids_agregados_actuales - ids_nuevos_agregados
+        for id_agregado in agregados_a_eliminar:
+            agregado = Agregado.query.get(id_agregado)
+            db.session.delete(agregado)
+
+        for id_agregado in ids_nuevos_agregados - ids_agregados_actuales:
+            nuevo_agregado = Agregado.query.get(id_agregado)
+            if nuevo_agregado:
+                
+                nuevo_agregado.id_menu = pedido.id_menu
+                db.session.add(nuevo_agregado)
+
+    db.session.commit()
+
+    return {
+        "id": pedido.id,
+        "id_menu": pedido.id_menu,
+        "agregados": nuevos_agregados,
+        "cantidad": pedido.cantidad,
+        "solicitado": pedido.solicitado,
+        "entregado": pedido.entregado,
+        "hentrega": pedido.hentrega
+    }
+
 @pedido_bp.route('/pedidos/<int:id>/corregir', methods=['PUT'])
 @login_required
 @check_permissions(2)
@@ -151,23 +189,29 @@ def corregir_pedido(id):
 
     data = request.get_json()
 
-    pedido.id_menu = data.get('id_menu', pedido.id_menu)
-    pedido.id_agregado = data.get('id_agregado', pedido.id_agregado)
-    pedido.cantidad = data.get('cantidad', pedido.cantidad)
-
-    db.session.commit()
+    pedido_actualizado = actualizar_pedido(pedido, data)
 
     return jsonify({
-        "message": "Pedido corregido con éxito", 
-        "pedido": {
-            "id": pedido.id,
-            "id_menu": pedido.id_menu,
-            "id_agregado": pedido.id_agregado,
-            "cantidad": pedido.cantidad,
-            "solicitado": pedido.solicitado,
-            "entregado": pedido.entregado,
-            "hentrega": pedido.hentrega
-        }
+        "message": "Pedido corregido con éxito",
+        "pedido": pedido_actualizado
+    }), 200
+
+@pedido_bp.route('/pedidos/<int:id>/corregir-forzado', methods=['PUT'])
+@login_required
+@check_permissions(2)
+def corregir_pedido_forzado(id):
+    pedido = Pedido.query.get_or_404(id)
+
+    if pedido.entregado:
+        return jsonify({"message": "No se puede corregir un pedido que ya ha sido entregado"}), 400
+
+    data = request.get_json()
+
+    pedido_actualizado = actualizar_pedido(pedido, data)
+
+    return jsonify({
+        "message": "Pedido corregido con éxito (sin restricción de tiempo)",
+        "pedido": pedido_actualizado
     }), 200
 
 @pedido_bp.route('/pedidos/<int:id>', methods=['DELETE'])
