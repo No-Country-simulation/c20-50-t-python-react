@@ -6,3 +6,5 @@ class MenuSchema(Schema):
     precio = fields.Float(required=True)
     descripcion = fields.Str()
     categoria = fields.Str()
+    agregados = fields.Nested('AgregadoSchema', many=True)
+    imagenes = fields.Nested('ImagenSchema', many=True)

@@ -1,17 +1,39 @@
+import { useState } from "react";
+import useMenu from "../store/useMenu";
+
 /**
  * Componente que renderiza una barra de búsqueda
  *
  * @returns {JSX.Element} - Elemento JSX que contiene la barra de búsqueda
  */
 const SearchBar = () => {
+  const { menu, setFilteredMenu } = useMenu();
+  const [searchQuery, setSearchQuery] = useState(""); // Add a state for the search query
+
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query); // Update the search query state
+
+    if (query === "") {
+      setFilteredMenu(menu); // Reset the filtered menu state to the original menu array
+    } else {
+      const filtered = menu.filter((dish) =>
+        dish.title.toLowerCase().includes(query.toLowerCase())
+      );
+
+      setFilteredMenu(filtered);
+    }
+  };
+
   return (
     // Contenedor principal con estilos de flexbox
+
     <div
       className={`
         flex 
         flex-row 
         h-[3rem] 
-        w-[32%] 
+        w-[32.2%] 
         bg-white 
         rounded-xl 
         border 
@@ -44,9 +66,14 @@ const SearchBar = () => {
 
       {/* Input de búsqueda */}
       <input
-        className="outline-none w-full"
+        className={`
+          outline-none 
+          w-full
+          `}
         type="text"
         placeholder="Buscar un producto"
+        value={searchQuery}
+        onChange={handleSearch}
       />
     </div>
   );

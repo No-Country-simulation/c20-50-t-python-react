@@ -13,11 +13,11 @@ const Categories = ({ categories }) => {
     // Contenedor principal con estilos de flexbox
     <div
       className={`
-        flex 
-        flex-row  
-        mx-1 
-        items-center 
-        w-full 
+        flex
+        flex-row
+        mx-1
+        items-center
+        w-full
         justify-evenly
         overflow-hidden
       `}
@@ -25,8 +25,8 @@ const Categories = ({ categories }) => {
       {/*
         Mapeamos el arreglo de categorías y renderizamos un CategoryBox por cada una
       */}
-      {categories.map((category, key) => {
-        return <CategoryBox key={key} category={category} />;
+      {categories.map((item) => {
+        return <CategoryBox key={item} label={item} />;
       })}
     </div>
   );
