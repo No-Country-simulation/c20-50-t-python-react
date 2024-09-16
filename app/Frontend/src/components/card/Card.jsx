@@ -14,6 +14,7 @@ const Card = ({
 
   const handleClick = () => {
     const newOrder = {
+      id: id,
       title: title,
       price: price,
       body: description,
@@ -38,7 +39,9 @@ const Card = ({
       {" "}
       <div className="relative">
         <img
-          src="https://i.pinimg.com/564x/07/21/32/072132759e23ee009f4f9ba04bdc8845.jpg"
+          src={
+            "https://i.pinimg.com/564x/07/21/32/072132759e23ee009f4f9ba04bdc8845.jpg"
+          }
           className={`
           w-full 
           h-[150px]

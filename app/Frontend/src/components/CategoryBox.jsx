@@ -27,13 +27,12 @@ const CategoryBox = ({ label, onClick }) => {
         flex-1 
         text-center 
         py-3 
-        transition 
-        hover:bg-black 
-        text-[#4A4A4A] 
-        hover:text-white 
+        transition
+        duration-200 
+        
         rounded-[10px]
         cursor-pointer
-
+        mx-[0.1%]
           text-sm
           md:text-base
           xl:text-lg
@@ -41,7 +40,11 @@ const CategoryBox = ({ label, onClick }) => {
           leading-4
           capitalize
 
-        ${selected ? "bg-black text-white" : null}
+        ${
+          selected
+            ? "bg-gray-900 text-gray-100 hover:bg-gray-900 hover:opacity-90"
+            : "hover:bg-[#C2C2C2] text-[#4A4A4A] active:bg-gray-900 active:text-gray-100"
+        }
       `}
       onClick={onClick}
       value={label}
