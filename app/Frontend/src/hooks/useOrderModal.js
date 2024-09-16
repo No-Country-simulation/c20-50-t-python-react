@@ -3,6 +3,7 @@ import { create } from "zustand";
 const useOrderModal = create((set) => ({
   isOpen: false,
   order: {
+    id: 0,
     title: "",
     price: 0,
     image: "",
@@ -21,6 +22,7 @@ const useOrderModal = create((set) => ({
   setInfo: (order) => {
     set({
       order: {
+        id: order.id,
         title: order.title,
         price: order.price,
         image: order.image ? order.image : "",

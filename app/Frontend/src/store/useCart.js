@@ -3,40 +3,60 @@ import { create } from "zustand";
 const useCart = create((set) => ({
   // dishes: [], // array de objetos que representan cada platillo
   orders: [], // array de objetos que representan la orden de comida
-  subTotal: 0,
   total: 0,
 
-  addDish: (dish, quantity) => {
-    set((state) => {
-      const existingDish = state.order.find((item) => item.id === dish.id);
+  // calculateSubTotalAndTotal: () => {
+  //   set((state) => {
+  //     let addonsPrice = state.orders.reduce(
+  //       (acc, item) => acc + item?.price * item.quantity,
+  //       0
+  //     );
+  //     let foodPrice = state.orders.reduce(
+  //       (acc, item) => acc + item.price * item.quantity,
+  //       0
+  //     );
+  //     let subTotal = addonsPrice + foodPrice;
+  //     const total = subTotal + subTotal * 0.03; // por defecto, el total es igual al subTotal
+  //     return { subTotal, total };
+  //   });
+  // },
 
-      if (existingDish) {
+  addDish: (dish) => {
+    set((state) => {
+      const existingDish = state.orders.find((item) => item.id === dish.id);
+
+      if (state.orders.length === 0) {
+        const plate = { ...dish };
         return {
-          order: state.order.map((item) =>
-            item.id === dish.id
-              ? { ...item, quantity: item.quantity + quantity }
-              : item
-          ),
+          total: state.total + dish.totalPrice,
+          orders: [...state.orders, plate],
         };
       } else {
-        // Aquí debemos agregar la lógica para agregar los agregados del platillo
-        const dishWithAddons = { ...dish, quantity, addons: [] };
-        dish.agregados.forEach((addon) => {
-          dishWithAddons.addons.push({ ...addon, quantity: 0 });
-        });
-        return {
-          order: [...state.order, dishWithAddons],
-        };
+        if (existingDish) {
+          return {
+            orders: state.orders.map((item) =>
+              item.id === dish.id ? { ...item } : item
+            ),
+          };
+        } else {
+          // Aquí debemos agregar la lógica para agregar los agregados del platillo
+          const plate = { ...dish };
+          return {
+            orders: [...state.orders, plate],
+          };
+        }
       }
     });
+    // Call calculateSubTotalAndTotal correctly;
   },
 
   removeDish: (dishId, quantity) => {
     if (quantity > 0) {
       set((state) => {
-        const dishToRemove = state.order.find((item) => item.id === dishId);
+        const dishToRemove = state.orders.find((item) => item.id === dishId);
+
         if (dishToRemove) {
-          const itemQuantity = state.order.map((item) => {
+          const itemQuantity = state.orders.map((item) => {
             if (item.id === dishId) {
               return item.quantity;
             }
@@ -44,11 +64,11 @@ const useCart = create((set) => ({
 
           if (itemQuantity === quantity) {
             return {
-              order: state.order.filter((item) => item.id !== dishId),
+              orders: state.orders.filter((item) => item.id !== dishId),
             };
           } else
             return {
-              order: state.order.map((item) =>
+              orders: state.orders.map((item) =>
                 item.id === dishId
                   ? { ...item, quantity: item.quantity - quantity }
                   : item
@@ -57,22 +77,6 @@ const useCart = create((set) => ({
         }
       });
     } else return "Hubo un error en su pedido, por favor intente de nuevo";
-  },
-
-  calculateSubTotal: () => {
-    set((state) => ({
-      subTotal: state.order.reduce(
-        (acc, item) => acc + item.price * item.quantity,
-        0
-      ),
-    }));
-  },
-
-  calculateTotal: () => {
-    // aquí puedes agregar lógica para calcular el total con descuentos o ofertas
-    set((state) => ({
-      total: state.subTotal, // por defecto, el total es igual al subTotal
-    }));
   },
 }));
 

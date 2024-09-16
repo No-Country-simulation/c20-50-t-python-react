@@ -1,10 +1,25 @@
+import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Order from "../components/Order";
 import useCart from "../store/useCart";
 import PropTypes from "prop-types";
 
 const OrderSummary = () => {
-  const { orders, total, subTotal } = useCart();
+  const { orders } = useCart();
+  let [subTotal, setSubTotal] = useState(
+    orders.length === 0
+      ? 0
+      : orders.reduce((acc, order) => acc + order.totalPrice, 0)
+  );
+  let [total, setTotal] = useState(subTotal + subTotal * 0.03);
+
+  useEffect(() => {
+    if (orders.length === 0) setSubTotal(0);
+    else {
+      setSubTotal(orders.reduce((acc, order) => acc + order.totalPrice, 0));
+      setTotal(subTotal + subTotal * 0.03);
+    }
+  }, [orders, subTotal]);
 
   return (
     <div
@@ -21,8 +36,10 @@ const OrderSummary = () => {
     >
       <div
         className={`
-        w-full 
-        px-3 
+        w-[95%] 
+        flex 
+        justify-center
+        mx-auto
         pb-2 
         mb-2 
         border-b 
@@ -36,6 +53,7 @@ const OrderSummary = () => {
           lg:text-lg
           xl:text-xl
           font-semibold
+          text-center
         `}
         >
           Mi pedido
@@ -71,23 +89,13 @@ const OrderSummary = () => {
           className={`
         flex
         flex-col
-        pr-4 
+        pr-2 
         pl-2 
         gap-3
         `}
         >
           {orders.map((food, key) => {
-            return (
-              <Order
-                key={key}
-                id={food.id}
-                title={food.title}
-                price={food.price}
-                description={food.description}
-                category={food.category}
-                agregados={food.agregados}
-              />
-            );
+            return <Order key={key} food={food} />;
           })}
         </div>
       )}

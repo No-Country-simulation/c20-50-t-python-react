@@ -1,30 +1,34 @@
 import PropTypes from "prop-types";
 
-const AgregadoBtn = ({ agregado }) => {
+const AgregadoBtn = ({ agregado, setSelAddons }) => {
   return (
     <div
-      key={agregado.id}
       id={agregado.id}
-      className="flex md:justify-start gap-2 h-full"
+      className="flex-1 flex flex-row md:justify-start items-center gap-2 w-full"
     >
-      <div className="flex flex-row w-full items-center">
-        <div className="w-6 xl:w-9 h-9 xl:h-12  flex justify-start items-center">
-          <input
-            type="radio"
-            id={`${agregado.id}`}
-            name="agregado"
-            value={agregado.id}
-            className="w-4 xl:w-5 h-4 xl:h-5  "
-          />
-        </div>
-        <div className="flex flex-row justify-between w-full">
-          <span className="capitalize text-lg md:text-base ">
-            {agregado?.name}
-          </span>
-          <span className="text-lg md:text-base font-medium">
-            ${agregado.price}
-          </span>
-        </div>
+      <div className="w-6 xl:w-9 h-9 xl:h-12 flex justify-start items-center ">
+        <input
+          type="checkbox"
+          id={`${agregado.id}`}
+          name="agregado"
+          value={agregado.id}
+          className="w-4 xl:w-5 h-4 xl:h-5"
+          onChange={(e) => {
+            if (e.target.checked) {
+              setSelAddons((prev) => [...prev, agregado]);
+            } else {
+              setSelAddons((prev) => prev.filter((a) => a.id !== agregado.id));
+            }
+          }}
+        />
+      </div>
+      <div className="flex flex-row justify-between w-full">
+        <span className="capitalize text-lg md:text-base ">
+          {agregado?.name}
+        </span>
+        <span className="text-lg md:text-base font-medium mr-2">
+          ${agregado.price}
+        </span>
       </div>
     </div>
   );
@@ -32,6 +36,7 @@ const AgregadoBtn = ({ agregado }) => {
 
 AgregadoBtn.propTypes = {
   agregado: PropTypes.object.isRequired,
+  setSelAddons: PropTypes.func.isRequired,
 };
 
 export default AgregadoBtn;
