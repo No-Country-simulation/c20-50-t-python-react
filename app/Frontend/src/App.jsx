@@ -4,11 +4,9 @@
  * @returns {JSX.Element} - Elemento JSX que contiene la estructura básica de la aplicación
  */
 
-import { useEffect } from "react";
 import Header from "./containers/Header";
 import Navbar from "./containers/Navbar";
 import OrderSummary from "./containers/OrderSummary";
-import useMenu from "./store/useMenu";
 import MenuLoader from "./containers/MenuLoader";
 
 // Definimos las categorías de la aplicación
