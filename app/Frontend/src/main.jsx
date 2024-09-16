@@ -1,5 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom"; // quitar BrowserRouter
 import ToasterProvider from "./providers/ToasterProvider.jsx";
 
@@ -39,10 +40,12 @@ const router = createBrowserRouter([
   },
 ]);
 
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ToasterProvider />
     <OrderModal />
     <RouterProvider router={router} />
+
   </StrictMode>
 );
