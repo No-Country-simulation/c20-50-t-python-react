@@ -4,17 +4,20 @@ import Order from "../components/Order";
 import useCart from "../store/useCart";
 import PropTypes from "prop-types";
 import useWaitressModal from "../hooks/useWaitressModal";
+import useMesaStore from "../store/useMesaStore";
+
+
 
 const OrderSummary = () => {
   const { orders } = useCart();
   const waitressModal = useWaitressModal();
   let [subTotal, setSubTotal] = useState(
     orders.length === 0
-      ? 0
-      : orders.reduce((acc, order) => acc + order.totalPrice, 0)
+    ? 0
+    : orders.reduce((acc, order) => acc + order.totalPrice, 0)
   );
   let [total, setTotal] = useState(subTotal + subTotal * 0.03);
-
+  
   useEffect(() => {
     if (orders.length === 0) setSubTotal(0);
     else {
@@ -22,16 +25,17 @@ const OrderSummary = () => {
       setTotal(subTotal + subTotal * 0.03);
     }
   }, [orders, subTotal]);
-
+  
   const handleClick = () => {
     waitressModal.onOpen();
   };
-
+  
+  const {numeroMesa} = useMesaStore();
   return (
     <div className="flex flex-col w-[32.4%] justify-start items-start">
       <div className="flex-row flex h-[48px] items-center justify-start gap-6">
         <div className="font-medium bg-[#CFCFCF] rounded-lg py-2 px-[14px] h-[48px] flex items-center w-fit">
-          N° de mesa<span className="text-2xl font-black ml-2">10</span>
+          N° de mesa<span className="text-2xl font-black ml-2"> {numeroMesa}</span>
         </div>
         <button className="hover:animate-blink" onClick={() => handleClick()}>
           <svg
