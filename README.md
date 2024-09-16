@@ -102,4 +102,5 @@ Restaurant App es una aplicación web diseñada para mejorar la experiencia tant
 
 ## **Enlaces del Proyecto**
 - **Repositorio en GitHub:** [https://github.com/tu-usuario/restaurant-app](https://github.com/tu-usuario/restaurant-app)
+- **Documentacion API : https:** //restomanager.docs.apiary.io/#
 - **Sitio Web del Proyecto:** [https://restaurantapp.example.com](https://restaurantapp.example.com) *(Este enlace debe actualizarse una vez se ponga en producción)*
