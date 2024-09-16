@@ -12,6 +12,7 @@ import Login from "./views/Login.jsx";
 import ManageComponent from "./views/ManageComponent.jsx";
 import AgendaPedidos from "./views/AgendaPedidos.jsx";
 import ManagePanel from "./views/ManagePanel.jsx";
+import MesaPage from "./views/MesaPage.jsx";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/mesa/:numeroMesa",
+    element: <MesaPage />,
   },
   {
     path: "/panel",
