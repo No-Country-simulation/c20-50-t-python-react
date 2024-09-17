@@ -5,6 +5,8 @@ from .imagen_schema import ImagenSchema
 from .permiso_schema import PermisoSchema
 from .usuario_schema import UsuarioSchema
 from .usuario_registrer_schema import UsuarioRegisterSchema
+from .mozoCaller_schema import  MozoCallerSchema
+
 __all__=[
     'MenuSchema',
     'AgregadoSchema',
@@ -12,5 +14,6 @@ __all__=[
     'ImagenSchema',
     'PermisoSchema',
     'UsuarioSchema',
-    'UsuarioRegisterSchema'
+    'UsuarioRegisterSchema',
+    'MozoCallerSchema'
 ]
