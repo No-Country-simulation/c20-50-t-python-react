@@ -8,3 +8,4 @@ from .pedido import Pedido
 from .imagen import Imagen
 from .permiso import Permiso
 from .usuario import Usuario
+from .mozoCaller import Llamadas
