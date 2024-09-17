@@ -4,14 +4,14 @@
 **Rubro:** SaaS (Software as a Service)
 
 ## **Descripción**
-RestoManager es una aplicación web diseñada para mejorar la experiencia tanto de los clientes como del personal en restaurantes. El MVP de esta aplicación incluye funcionalidades como pedidos en línea mediante QR, pagos a través de la app, y una eficiente gestión de comandas en la cocina. El objetivo es digitalizar y optimizar el proceso de atención en restaurantes, brindando una experiencia más fluida y conveniente para los usuarios y el personal del restaurante.
+RestoManager es una aplicación web diseñada para mejorar la experiencia tanto de los clientes como del personal en restaurantes. El MVP de esta aplicación incluye funcionalidades como pedidos en línea mediante QR y una eficiente gestión de comandas en la cocina. El objetivo es digitalizar y optimizar el proceso de atención en restaurantes, brindando una experiencia más fluida y conveniente para los usuarios y el personal del restaurante.
 
 ## **Uso**
 
 ### **Hacer Pedido desde QR Code**
 1. El usuario escanea un código QR en su mesa.
 2. Accede al menú digital y realiza su pedido.
-3. Confirma y paga el pedido a través de la app.
+3. Confirma el pedido a través de la app.
 
 ### **Gestión de Comandas en la Cocina**
 1. El equipo de cocina recibe los pedidos organizados por mesa.
