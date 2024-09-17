@@ -16,8 +16,8 @@ const MozoCallsTable = () => {
     };
 
     fetchCalls();
-    //const intervalId = setInterval(fetchCalls, 5000);
-    //return () => clearInterval(intervalId);
+    const intervalId = setInterval(fetchCalls, 5000);
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleMarkAsDelivered = async (id) => {
