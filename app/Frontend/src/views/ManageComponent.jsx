@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react"; // Agregada la importación de useEffect
+import React, { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import useAuthStore from "../store/authStore";
+import MozoCallsTable from './MozoCallsTable';  // Importar el componente de la tabla
 
 const ManageComponent = () => {
   const { auth } = useAuthStore();
@@ -35,6 +36,7 @@ const ManageComponent = () => {
         </ul>
       </nav>
       <main className="flex-1 p-4">
+        <MozoCallsTable /> 
         <Outlet />
       </main>
     </div>

@@ -44,6 +44,7 @@ def get_mozoCalls():
     for mozoCall in mozoCalls:
         mozocall_data = {
             "id": mozoCall.id,
+            "mesa":mozoCall.id_mesa,
             "solicitado": mozoCall.solicitado,
             "atendido": mozoCall.atendido,
             "hentrega": mozoCall.hentrega,
@@ -61,6 +62,7 @@ def get_mozoCall(id):
 
     mozoCall_data = {
         "id": mozoCall.id,
+        "mesa":mozoCall.id_mesa,
         "solicitado": mozoCall.solicitado,
         "atendido": mozoCall.atendido,
         "hentrega": mozoCall.hentrega,
@@ -90,6 +92,7 @@ def marcar_atendido(id):
         "message": "MozoCall marcado como atendido",
         "mozoCall": {
             "id": mozoCall.id,
+            "mesa":mozoCall.id_mesa,
             "atendido": mozoCall.atendido,
             "hentrega": mozoCall.hentrega
         }
@@ -100,12 +103,10 @@ def marcar_atendido(id):
 @login_required
 @check_permissions(1)
 def delete_mozoCall(id):
-    mozoCall = Llamadas.query.get_or_404(id)
+    mozoCall = Llamadas.query.get_or_404(id) 
 
-    if mozoCall.atendido:
-        return jsonify({"message": "No se puede eliminar un mozoCall que ya ha sido atendido"}), 400
+    db.session.delete(mozoCall)  
+    db.session.commit()  
 
-    db.session.delete(mozoCall)
-    db.session.commit()
+    return jsonify({"message": "MozoCall eliminado con éxito"}), 200 
 
-    return jsonify({"message": "MozoCall eliminado con éxito"}), 200
