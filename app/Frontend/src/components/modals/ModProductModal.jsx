@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axiosConfig from '../../utils/axiosConfig';
 
-const URL_UPDATE_MENU = '/menu'; // Cambia esta URL según la API que estés usando
-const URL_ADD_AGREGADO = '/agregados'; // URL para agregar nuevos agregados
+const URL_UPDATE_MENU = '/menu'; 
+const URL_AGREGADO = '/agregados'; // Consolidado para añadir y eliminar
 
 const ModProductModal = ({ product, onClose }) => {
   const [formData, setFormData] = useState({
@@ -10,7 +10,7 @@ const ModProductModal = ({ product, onClose }) => {
     precio: '',
     descripcion: '',
     categoria: '',
-    agregados: [], // No inicializamos con un agregado vacío
+    agregados: [], 
     imagenes: [{ url: '' }]
   });
 
@@ -23,7 +23,7 @@ const ModProductModal = ({ product, onClose }) => {
         categoria: product.categoria,
         agregados: product.agregados.map(agregado => ({
           ...agregado,
-          isNew: false // Marcamos como existente
+          isNew: false 
         })) || [],
         imagenes: product.imagenes || [{ url: '' }]
       });
@@ -53,6 +53,20 @@ const ModProductModal = ({ product, onClose }) => {
     setFormData({ ...formData, imagenes: [{ url: value }] });
   };
 
+  const handleDeleteAgregado = async (id) => {
+    if (window.confirm('¿Está seguro de que desea eliminar este agregado?')) {
+      try {
+        await axiosConfig.delete(`${URL_AGREGADO}/${id}`);
+        setFormData({
+          ...formData,
+          agregados: formData.agregados.filter(agregado => agregado.id !== id)
+        });
+      } catch (error) {
+        console.error('Error al eliminar el agregado:', error);
+      }
+    }
+  };
+
   const handleSave = async () => {
     try {
       if (!product || !product.id) {
@@ -65,7 +79,7 @@ const ModProductModal = ({ product, onClose }) => {
         precio: formData.precio,
         descripcion: formData.descripcion,
         categoria: formData.categoria,
-        agregados: formData.agregados.filter(agregado => !agregado.isNew), // Solo modificamos los existentes
+        agregados: formData.agregados.filter(agregado => !agregado.isNew), 
         imagenes: formData.imagenes
       });
 
@@ -73,8 +87,8 @@ const ModProductModal = ({ product, onClose }) => {
       await Promise.all(formData.agregados
         .filter(agregado => agregado.isNew)
         .map(agregado =>
-          axiosConfig.post(URL_ADD_AGREGADO, {
-            id_menu: product.id, // Aseguramos que el id_menu esté presente
+          axiosConfig.post(URL_AGREGADO, {
+            id_menu: product.id, 
             nombre: agregado.nombre,
             precio: agregado.precio,
             descripcion: agregado.descripcion
@@ -83,7 +97,7 @@ const ModProductModal = ({ product, onClose }) => {
       );
       
       console.log('Producto actualizado:', formData);
-      onClose(formData); // Cierra el modal y pasa el producto actualizado
+      onClose(formData); 
     } catch (error) {
       console.error('Error al actualizar el producto:', error);
     }
@@ -93,7 +107,7 @@ const ModProductModal = ({ product, onClose }) => {
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-6 rounded shadow-lg w-[70vw] max-h-[90vh] overflow-y-auto">
         <h2 className="text-2xl mb-4">Editar Producto</h2>
-        <form className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <form className="flex flex-col gap-4">
           {/* Nombre, Categoría y Precio */}
           <input
             type="text"
@@ -101,7 +115,7 @@ const ModProductModal = ({ product, onClose }) => {
             placeholder="Nombre del producto"
             value={formData.producto}
             onChange={handleFieldChange}
-            className="mb-2 p-2 border border-gray-300 rounded"
+            className="p-2 border border-gray-300 rounded"
           />
           <input
             type="text"
@@ -109,7 +123,7 @@ const ModProductModal = ({ product, onClose }) => {
             placeholder="Categoría"
             value={formData.categoria}
             onChange={handleFieldChange}
-            className="mb-2 p-2 border border-gray-300 rounded"
+            className="p-2 border border-gray-300 rounded"
           />
           <input
             type="number"
@@ -117,69 +131,78 @@ const ModProductModal = ({ product, onClose }) => {
             placeholder="Precio"
             value={formData.precio}
             onChange={handleFieldChange}
-            className="mb-2 p-2 border border-gray-300 rounded"
+            className="p-2 border border-gray-300 rounded"
           />
           
-          {/* Descripción (ocupa las 3 columnas) */}
+          {/* Descripción */}
           <textarea
             name="descripcion"
             placeholder="Descripción"
             value={formData.descripcion}
             onChange={handleFieldChange}
-            className="mb-2 p-2 border border-gray-300 rounded col-span-3"
+            className="p-2 border border-gray-300 rounded"
           />
 
           {/* Agregados */}
-          <h3 className="text-xl mb-2 col-span-3">Agregados</h3>
+          <h3 className="text-xl mb-2">Agregados</h3>
           {formData.agregados.map((agregado, index) => (
-            <React.Fragment key={index}>
-              <input
-                type="text"
-                placeholder="Nombre del agregado"
-                value={agregado.nombre}
-                onChange={(e) => handleAgregadoChange(index, 'nombre', e.target.value)}
-                className="mb-1 p-2 border border-gray-300 rounded"
-              />
-              <input
-                type="number"
-                placeholder="Precio"
-                value={agregado.precio}
-                onChange={(e) => handleAgregadoChange(index, 'precio', e.target.value)}
-                className="mb-1 p-2 border border-gray-300 rounded"
-              />
+            <div key={agregado.id || index} className="flex flex-col mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <input
+                  type="text"
+                  placeholder="Nombre del agregado"
+                  value={agregado.nombre}
+                  onChange={(e) => handleAgregadoChange(index, 'nombre', e.target.value)}
+                  className="p-2 border border-gray-300 rounded flex-1"
+                />
+                <input
+                  type="number"
+                  placeholder="Precio"
+                  value={agregado.precio}
+                  onChange={(e) => handleAgregadoChange(index, 'precio', e.target.value)}
+                  className="p-2 border border-gray-300 rounded flex-1"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleDeleteAgregado(agregado.id)}
+                  className="bg-red-500 text-white p-2 rounded"
+                >
+                  Eliminar
+                </button>
+              </div>
               <input
                 type="text"
                 placeholder="Descripción"
                 value={agregado.descripcion}
                 onChange={(e) => handleAgregadoChange(index, 'descripcion', e.target.value)}
-                className="mb-1 p-2 border border-gray-300 rounded col-span-3"
+                className="p-2 border border-gray-300 rounded w-full mb-2"
               />
-            </React.Fragment>
+            </div>
           ))}
           <button
             type="button"
             onClick={addAgregado}
-            className="p-2 bg-green-500 text-white rounded col-span-3"
+            className="p-2 bg-green-500 text-white rounded"
           >
-            Agregar otro agregado
+            Añadir otro agregado
           </button>
 
           {/* Imagen */}
-          <h3 className="text-xl mb-2 col-span-3">Imagen</h3>
+          <h3 className="text-xl mb-2">Imagen</h3>
           <input
             type="text"
             placeholder="URL de la imagen"
             value={formData.imagenes[0].url}
             onChange={handleImageChange}
-            className="mb-2 p-2 border border-gray-300 rounded col-span-3"
+            className="p-2 border border-gray-300 rounded w-full"
           />
         </form>
 
         {/* Botones de acción */}
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-end mt-4 gap-2">
           <button
             onClick={handleSave}
-            className="p-2 bg-blue-500 text-white rounded mr-2"
+            className="p-2 bg-blue-500 text-white rounded"
           >
             Guardar
           </button>
