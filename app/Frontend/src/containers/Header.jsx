@@ -20,7 +20,8 @@ const Header = () => {
 
       <img
         src="https://i.ibb.co/gj4hVP3/logobanner1-1.png"
-        className="w-[15%] h-auto rounded overflow-hidden"
+        alt="Banner"
+        className="w-[15%] h-auto rounded-md overflow-hidden"
       />
     </div>
   );

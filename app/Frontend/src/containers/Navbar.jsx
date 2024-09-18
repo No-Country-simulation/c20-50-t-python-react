@@ -5,14 +5,20 @@ import { useNavigate } from "react-router-dom";
 import CategoryBox from "../components/CategoryBox";
 import { useCallback, useEffect } from "react";
 import useCategory from "../hooks/useCategory";
+import useMesaStore from "../hooks/useMesaStore";
 
 const Navbar = ({ categories }) => {
   const { category, setCategory } = useCategory();
   const navigate = useNavigate();
+  const table = useMesaStore();
 
   useEffect(() => {
-    category === "" ? navigate("/") : navigate(`/?category=${category}`);
-  }, [category, navigate]);
+    if (table.numeroMesa)
+      category === ""
+        ? navigate(`/mesa/${table.numeroMesa}`)
+        : navigate(`/mesa/${table.numeroMesa}/?category=${category}`);
+    else category === "" ? navigate(`/`) : navigate(`/?category=${category}`);
+  }, [category, navigate, table]);
 
   const handleCategoryChange = useCallback(
     (event) => {
@@ -21,16 +27,6 @@ const Navbar = ({ categories }) => {
     },
     [category, setCategory]
   );
-
-  // if (isCharging) {
-  //   return (
-  //     <div className="flex flex-row gap-2">
-  //       <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
-  //       <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:.3s]"></div>
-  //       <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div
@@ -50,7 +46,7 @@ const Navbar = ({ categories }) => {
         px-2 
         justify-evenly 
         rounded-lg 
-        bg-[#E6E6E6] 
+        bg-[#CFCFCF] 
         h-[64px] 
         items-center
       `}

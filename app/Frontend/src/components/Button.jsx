@@ -14,7 +14,6 @@ const Button = ({ label, onClick, disabled, outline }) => {
         rounded-[10px] 
         font-inter
         font-bold
-        text-lg
         text-center
         
         ${disabled ? "opacity-70 cursor-not-allowed" : ""}

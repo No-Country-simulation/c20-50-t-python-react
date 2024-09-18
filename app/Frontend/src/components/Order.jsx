@@ -25,6 +25,8 @@ const Order = ({ food }) => {
           rounded-lg 
           border
           border-[#878787]
+          resize
+          bg-contain
          `}
       />
 
@@ -113,7 +115,7 @@ const Order = ({ food }) => {
 };
 
 Order.propTypes = {
-  food: PropTypes.element.isRequired,
+  food: PropTypes.object.isRequired,
 };
 
 export default Order;

@@ -16,6 +16,7 @@ const OrderModal = () => {
   const [showModal, setShowModal] = useState(orderModal.isOpen);
   const [minusDisabled, setMinusDisabled] = useState(true);
   const isBigScreen = useMediaQuery({ query: "(min-width: 1024px)" });
+  const isPhoneScreen = useMediaQuery({ query: "(max-width: 480px)" });
   let [quantity, setQuantity] = useState(order.quantity);
   const [selAddons, setSelAddons] = useState([]); // Array to store selected agregados
   let [total, setTotal] = useState(
@@ -69,8 +70,7 @@ const OrderModal = () => {
       title: order.title,
       price: order.price,
       totalPrice: total,
-      image:
-        "https://i.pinimg.com/564x/07/21/32/072132759e23ee009f4f9ba04bdc8845.jpg",
+      image: order.image,
       specification: order.specification,
       addons: selAddons,
       quantity: quantity,
@@ -153,16 +153,16 @@ const OrderModal = () => {
                 bg-white 
                 outline-none 
                 focus:outline-none
-                overflow-hidden
+                overflow-auto
                 
                 `}
               >
                 {/* IMAGEN */}
-                <Image />
+                <Image image={order.image} title={order.title} />
 
                 <div className="flex flex-col lg:px-6 py-4 gap-4 h-full flex-1 justify-between ">
                   {/* HEADER */}
-                  <div className="flex flex-row items-center w-full h-fit justify-between relative text-lg font-bold px-6 lg:px-0">
+                  <div className="flex flex-row items-center w-full h-fit justify-between relative text-2xl md:text-xl font-bold px-6 lg:px-0">
                     <div>{order.title}</div>
                     <div className="lg:flex lg:flex-row items-center justify-center">
                       <div className="text-2xl md:text-xl lg:px-2 ">
@@ -192,46 +192,53 @@ const OrderModal = () => {
                       ) : null}
                     </div>
                   </div>
-                  <div className="items-center">
-                    <span className="text-lg md:text-base px-6 lg:px-0 w-full block lg:w-fit">
-                      {order.body}
-                    </span>
+                  {isPhoneScreen ? null : (
+                    <div className="items-center">
+                      <span className="text-xl md:text-base font-medium px-6 lg:px-0 w-full block lg:w-fit">
+                        {order.body}
+                      </span>
 
-                    {isBigScreen ? null : (
-                      <button
-                        name="close"
-                        onClick={handleClose}
-                        className="border-0 hover:opacity-70 transition absolute lg:relative top-0 right-0 cursor-pointer rounded-md m-3 z-[100]"
-                      >
-                        <svg
-                          width="48"
-                          height="48"
-                          viewBox="0 0 48 48"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="p-1 rounded-xl"
+                      {isBigScreen ? null : (
+                        <button
+                          name="close"
+                          onClick={handleClose}
+                          className="border-0 hover:opacity-70 transition absolute lg:relative top-0 right-0 cursor-pointer rounded-md m-3 z-[100]"
                         >
-                          <rect width="48" height="48" fill="white" />
-                          <path
-                            d="M35.4093 12.5907C34.6216 11.8031 33.3446 11.8031 32.5569 12.5907L24 21.1477L15.443 12.5907C14.6554 11.8031 13.3784 11.8031 12.5907 12.5907C11.8031 13.3784 11.8031 14.6554 12.5907 15.4431L21.1477 24L12.5907 32.5569C11.8031 33.3446 11.8031 34.6216 12.5907 35.4093C13.3784 36.1969 14.6554 36.1969 15.4431 35.4093L24 26.8523L32.5569 35.4093C33.3446 36.1969 34.6216 36.1969 35.4093 35.4093C36.1969 34.6216 36.1969 33.3446 35.4093 32.5569L26.8523 24L35.4093 15.4431C36.1969 14.6554 36.1969 13.3784 35.4093 12.5907Z"
-                            fill="black"
-                          />
-                        </svg>
-                      </button>
-                    )}
-                  </div>
+                          <svg
+                            width="48"
+                            height="48"
+                            viewBox="0 0 48 48"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="p-1 rounded-xl"
+                          >
+                            <rect width="48" height="48" fill="white" />
+                            <path
+                              d="M35.4093 12.5907C34.6216 11.8031 33.3446 11.8031 32.5569 12.5907L24 21.1477L15.443 12.5907C14.6554 11.8031 13.3784 11.8031 12.5907 12.5907C11.8031 13.3784 11.8031 14.6554 12.5907 15.4431L21.1477 24L12.5907 32.5569C11.8031 33.3446 11.8031 34.6216 12.5907 35.4093C13.3784 36.1969 14.6554 36.1969 15.4431 35.4093L24 26.8523L32.5569 35.4093C33.3446 36.1969 34.6216 36.1969 35.4093 35.4093C36.1969 34.6216 36.1969 33.3446 35.4093 32.5569L26.8523 24L35.4093 15.4431C36.1969 14.6554 36.1969 13.3784 35.4093 12.5907Z"
+                              fill="black"
+                            />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                  )}
 
                   {/* ADDONS */}
-                  {order.agregados.length === 0 ? null : (
-                    <div
-                      id="Agregados"
-                      className="flex-1 flex flex-col gap-1 px-6 lg:px-0 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-slate-300  overflow-y-scroll"
-                    >
-                      <div className="font-medium text-lg">
-                        Selecciona un acompañamiento:
+
+                  <div
+                    id="Agregados"
+                    className="flex-1 flex flex-col gap-1 px-6 lg:px-0 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-slate-300  overflow-y-scroll"
+                  >
+                    <div className="font-semibold text-xl ">
+                      Selecciona un acompañamiento:
+                    </div>
+                    {order.agregados.length === 0 ? (
+                      <div className=" py-3 px-2 rounded-lg bg-[#343434] text-white w-fit mx-auto my-auto text-lg xl:text-base font-medium">
+                        No existen acompañamientos aún
                       </div>
+                    ) : (
                       <div className="h-full">
-                        <div className="">
+                        <div>
                           {order.agregados.map((agregado) => {
                             return (
                               <AgregadoBtn
@@ -243,11 +250,12 @@ const OrderModal = () => {
                           })}
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
 
                   <div className="flex flex-row w-full px-6 lg:px-0 h-fit text-lg font-semibold justify-between">
-                    <span>Total:</span> <span>${total}</span>
+                    <span>Total:</span>{" "}
+                    <span className="lg:mr-2">${total}</span>
                   </div>
 
                   {/* FOOTER */}

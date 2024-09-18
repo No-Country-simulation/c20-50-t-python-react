@@ -1,19 +1,23 @@
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import useMesaStore from '../store/useMesaStore'; 
-import WelcomeModal from '../components/modals/WelcomeModal'; 
+import { useParams } from "react-router-dom";
+
+import useMesaStore from "../hooks/useMesaStore";
+import WelcomeModal from "../components/modals/WelcomeModal";
+import App from "../App";
 
 const MesaPage = () => {
-  const { numeroMesa } = useParams(); 
-  const setNumeroMesa = useMesaStore((state) => state.setNumeroMesa); 
-  const navigate = useNavigate(); 
-  useEffect(() => {
-   
-    setNumeroMesa(numeroMesa);
-    console.log(numeroMesa);
-  }, [numeroMesa, setNumeroMesa]);
+  const { numeroMesa } = useParams();
+  const tableStore = useMesaStore();
 
-  return <WelcomeModal numeroMesa={numeroMesa} navigate={navigate} />;
+  if (!tableStore.numeroMesa) {
+    tableStore.setNumeroMesa(numeroMesa);
+  }
+
+  return (
+    <>
+      <WelcomeModal numeroMesa={numeroMesa} />
+      <App />
+    </>
+  );
 };
 
 export default MesaPage;

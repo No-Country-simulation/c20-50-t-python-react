@@ -10,7 +10,9 @@ const adaptMenuData = (newMenuData) => {
       price: menuItem.precio,
       description: menuItem.descripcion,
       category: menuItem.categoria,
-      image: menuItem?.imagenes,
+      image: menuItem?.imagenes[0]
+        ? menuItem?.imagenes[0]
+        : "https://i.pinimg.com/564x/07/21/32/072132759e23ee009f4f9ba04bdc8845.jpg",
       agregados: menuItem?.agregados.map((agregado) => {
         return {
           id: agregado.id,

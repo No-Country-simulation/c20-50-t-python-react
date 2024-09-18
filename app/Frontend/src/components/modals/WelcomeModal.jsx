@@ -1,29 +1,61 @@
-import React from 'react';
+import { useCallback, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import useMesaStore from "../../hooks/useMesaStore";
+import useWaitressModal from "../../hooks/useWaitressModal";
 
-const WelcomeModal = ({ numeroMesa, navigate }) => {
+const WelcomeModal = ({ numeroMesa }) => {
+  const tableModal = useMesaStore();
+  const waitressModal = useWaitressModal();
+  const [showModal, setShowModal] = useState(tableModal.isOpen);
+
+  useEffect(() => {
+    setShowModal(tableModal.isOpen);
+  }, [tableModal.isOpen, numeroMesa]);
+
+  const handleClose = useCallback(() => {
+    // Set showModal to false and call onClose callback after a delay
+    setShowModal(false);
+    setTimeout(() => {
+      tableModal.onClose();
+    }, 300);
+  }, [tableModal]);
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-green-300 bg-opacity-70">
-      <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-        <h2 className="text-2xl font-bold mb-4">Bienvenido a Nostra Cocina</h2>
-        <p className="mb-6">Usted está pidiendo para la mesa {numeroMesa}</p>
+    showModal && (
+      <div className="fixed inset-0 flex items-center justify-center bg-black/70 shadow-2xl z-[40]">
+        <div className="bg-white p-6 rounded-lg shadow-lg text-center items-center">
+          <h2 className="text-2xl font-black mb-4">
+            Bienvenido a Nostra Cocina
+          </h2>
+          <p className="mb-6 font-medium text-lg">
+            Usted está pidiendo para la mesa {numeroMesa}
+          </p>
 
-        <div className="space-x-4">
-          {/* Botón para llamar al mozo (enlazar funcionalidad luego) */}
-          <button className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">
-            Llamar al mozo
-          </button>
+          <div className="space-x-4 flex flex-row items-center">
+            {/* Botón para llamar al mozo (enlazar funcionalidad luego) */}
+            <button
+              onClick={() => waitressModal.onOpen()}
+              className="px-4 py-2 bg-[#343434] border-[#343434] text-white rounded hover:bg-[#343434]/80 active:bg-[#1F1F1F] disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              Llamar al mozo
+            </button>
 
-          {/* Botón para continuar al menú (redirige a /) */}
-          <button
-            onClick={() => navigate('/')}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Continuar al menú
-          </button>
+            {/* Botón para continuar al menú (redirige a /) */}
+            <button
+              onClick={handleClose}
+              className="px-4 py-2 bg-[#343434] border-[#343434] text-white rounded hover:bg-[#343434]/80 active:bg-[#1F1F1F] disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              Continuar al menú
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    )
   );
+};
+
+WelcomeModal.propTypes = {
+  numeroMesa: PropTypes.string.isRequired,
 };
 
 export default WelcomeModal;

@@ -4,7 +4,6 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom"; // quitar BrowserRouter
 import ToasterProvider from "./providers/ToasterProvider.jsx";
 
-import App from "./App.jsx";
 import ErrorPage from "./Error-page.jsx";
 import OrderModal from "./components/modals/OrderModal.jsx";
 
@@ -15,13 +14,18 @@ import AgendaPedidos from "./views/AgendaPedidos.jsx";
 import ManagePanel from "./views/ManagePanel.jsx";
 import MesaPage from "./views/MesaPage.jsx";
 import "./index.css";
-import ManagePanel from "./views/ManagePanel.jsx";
 import WaitressModal from "./components/modals/WaitressModal.jsx";
+import App from "./App.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/mesa/:numeroMesa",
+    element: <MesaPage />,
     errorElement: <ErrorPage />,
   },
   {
@@ -32,10 +36,7 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
-  {
-    path: "/mesa/:numeroMesa",
-    element: <MesaPage />,
-  },
+
   {
     path: "/panel",
     element: <ManageComponent />,
@@ -55,8 +56,8 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ToasterProvider />
-    <WaitressModal />
     <OrderModal />
+    <WaitressModal />
     <RouterProvider router={router} />
   </StrictMode>
 );

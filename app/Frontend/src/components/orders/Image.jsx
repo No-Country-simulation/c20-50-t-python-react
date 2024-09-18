@@ -1,15 +1,23 @@
-const Image = () => {
+import PropTypes from "prop-types";
+
+const Image = ({ image, title }) => {
   return (
-    <div className="relative flex-1 ">
-      <div
+    <div className="relative flex-1 h-[50%] lg:h-full lg:w-fit">
+      {/* <div
         id="image"
-        className="h-full bg-cover bg-center"
+        className=" bg-cover bg-center resize "
         style={{
-          backgroundImage: `url(https://i.pinimg.com/564x/07/21/32/072132759e23ee009f4f9ba04bdc8845.jpg)`,
+          backgroundImage: `${image}`,
         }}
-      ></div>
+      ></div> */}
+      <img src={image} alt={title} className="mx-auto h-full w-full resize" />
     </div>
   );
+};
+
+Image.propTypes = {
+  image: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default Image;

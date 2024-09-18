@@ -29,7 +29,6 @@ const CategoryBox = ({ label, onClick }) => {
         py-3 
         transition
         duration-200 
-        
         rounded-[10px]
         cursor-pointer
         mx-[0.1%]
@@ -43,7 +42,7 @@ const CategoryBox = ({ label, onClick }) => {
         ${
           selected
             ? "bg-gray-900 text-gray-100 hover:bg-gray-900 hover:opacity-90"
-            : "hover:bg-[#C2C2C2] text-[#4A4A4A] active:bg-gray-900 active:text-gray-100"
+            : "hover:bg-[#A3A3A3] text-[#3D3D3D] hover:text-[#292929] active:bg-gray-900 active:text-gray-100"
         }
       `}
       onClick={onClick}
