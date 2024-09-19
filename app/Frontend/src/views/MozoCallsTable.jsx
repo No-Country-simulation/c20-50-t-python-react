@@ -23,7 +23,7 @@ const MozoCallsTable = () => {
   const handleMarkAsDelivered = async (id) => {
     try {
       const response = await axiosConfig.put(`${CALLS_URL}/${id}/entregar`);
-      const updatedCall = response.data.mozoCall; // Obtenemos la llamada actualizada desde el backend
+      const updatedCall = response.data.mozoCall;
       setCalls(calls.map(call =>
         call.id === id ? { ...call, atendido: updatedCall.atendido, hentrega: updatedCall.hentrega } : call
       ));
@@ -35,7 +35,7 @@ const MozoCallsTable = () => {
   const handleMarkAsCharged = async (id) => {
     try {
       const response = await axiosConfig.put(`${CALLS_URL}/${id}/cobrar`);
-      const updatedCall = response.data.mozoCall; // Obtenemos la llamada actualizada desde el backend
+      const updatedCall = response.data.mozoCall;
       setCalls(calls.map(call =>
         call.id === id ? { ...call, cobrado: updatedCall.cobrado, atendido: updatedCall.atendido, hentrega: updatedCall.hentrega } : call
       ));
@@ -53,7 +53,6 @@ const MozoCallsTable = () => {
     }
   };
 
-  // Ordenamos las llamadas según el estado (cobrados al final)
   const sortedCalls = [...calls].sort((a, b) => {
     if (a.cobrado && !b.cobrado) return 1;
     if (!a.cobrado && b.cobrado) return -1;
@@ -63,22 +62,22 @@ const MozoCallsTable = () => {
   });
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Llamadas a Mozos</h1>
-      <table className="min-w-full table-auto border-collapse border border-gray-200">
-        <thead>
+    <div className="p-6 bg-gray-100 rounded-lg shadow-md">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">Llamadas a Mozos</h1>
+      <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+        <thead className="bg-gray-200 text-gray-600">
           <tr>
-            <th className="border border-gray-200 p-2">ID</th>
-            <th className="border border-gray-200 p-2">Mesa</th>
-            <th className="border border-gray-200 p-2">Solicitado</th>
-            <th className="border border-gray-200 p-2">Atendido</th>
-            <th className="border border-gray-200 p-2">Hora de Atención</th>
-            <th className="border border-gray-200 p-2">Cuenta</th>
-            <th className="border border-gray-200 p-2">Cobrado</th>
-            <th className="border border-gray-200 p-2">Acciones</th>
+            <th className="border-b border-gray-300 p-4 text-left">ID</th>
+            <th className="border-b border-gray-300 p-4 text-left">Mesa</th>
+            <th className="border-b border-gray-300 p-4 text-left">Solicitado</th>
+            <th className="border-b border-gray-300 p-4 text-left">Atendido</th>
+            <th className="border-b border-gray-300 p-4 text-left">Hora de Atención</th>
+            <th className="border-b border-gray-300 p-4 text-left">Cuenta</th>
+            <th className="border-b border-gray-300 p-4 text-left">Cobrado</th>
+            <th className="border-b border-gray-300 p-4 text-center">Acciones</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-gray-800">
           {sortedCalls.map((call) => (
             <tr
               key={call.id}
@@ -92,28 +91,28 @@ const MozoCallsTable = () => {
                   : ''
               }
             >
-              <td className="border border-gray-200 p-2 text-center">{call.id}</td>
-              <td className="border border-gray-200 p-2 text-center">{call.mesa}</td>
-              <td className="border border-gray-200 p-2 text-center">
+              <td className="border-b border-gray-300 p-2 text-center">{call.id}</td>
+              <td className="border-b border-gray-300 p-2 text-center">{call.mesa}</td>
+              <td className="border-b border-gray-300 p-2 text-center">
                 {new Date(call.solicitado).toLocaleString()}
               </td>
-              <td className="border border-gray-200 p-2 text-center">
+              <td className="border-b border-gray-300 p-2 text-center">
                 {call.atendido ? 'Sí' : 'No'}
               </td>
-              <td className="border border-gray-200 p-2 text-center">
+              <td className="border-b border-gray-300 p-2 text-center">
                 {call.hentrega ? new Date(call.hentrega).toLocaleString() : 'N/A'}
               </td>
-              <td className="border border-gray-200 p-2 text-center">
+              <td className="border-b border-gray-300 p-2 text-center">
                 {call.cuenta ? 'Sí' : 'No'}
               </td>
-              <td className="border border-gray-200 p-2 text-center">
+              <td className="border-b border-gray-300 p-2 text-center">
                 {call.cobrado ? 'Sí' : 'No'}
               </td>
-              <td className="border border-gray-200 p-2 text-center">
+              <td className="border-b border-gray-300 p-2 text-center">
                 {!call.atendido && (
                   <button
                     onClick={() => handleMarkAsDelivered(call.id)}
-                    className="bg-blue-500 text-white p-1 rounded mr-2"
+                    className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-150 ease-in-out text-sm"
                   >
                     Atendido
                   </button>
@@ -121,7 +120,7 @@ const MozoCallsTable = () => {
                 {call.atendido && !call.cobrado && (
                   <button
                     onClick={() => handleMarkAsCharged(call.id)}
-                    className="bg-yellow-500 text-white p-1 rounded mr-2"
+                    className="w-full p-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 transition duration-150 ease-in-out text-sm"
                   >
                     Cobrado
                   </button>
@@ -129,7 +128,7 @@ const MozoCallsTable = () => {
                 {call.cobrado && (
                   <button
                     onClick={() => handleDeleteCall(call.id)}
-                    className="bg-red-500 text-white p-1 rounded"
+                    className="w-full p-2 bg-red-600 text-white rounded hover:bg-red-700 transition duration-150 ease-in-out text-sm"
                   >
                     Eliminar
                   </button>
