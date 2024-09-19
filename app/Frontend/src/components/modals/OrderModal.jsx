@@ -11,10 +11,11 @@ import useCart from "../../store/useCart";
 
 const OrderModal = () => {
   const orderModal = useOrderModal();
-  const { order } = orderModal;
   const cart = useCart();
+  const { order } = orderModal;
   const [showModal, setShowModal] = useState(orderModal.isOpen);
   const [minusDisabled, setMinusDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(false);
   const isBigScreen = useMediaQuery({ query: "(min-width: 1024px)" });
   const isPhoneScreen = useMediaQuery({ query: "(max-width: 480px)" });
   let [quantity, setQuantity] = useState(order.quantity);
@@ -26,28 +27,42 @@ const OrderModal = () => {
           quantity
       : order.price * quantity
   );
+  let [newUniqueKey, setNewUniqueKey] = useState("");
 
   const handleClose = useCallback(() => {
     // Set showModal to false and call onClose callback after a delay
     setShowModal(false);
+    setSelAddons([]);
+    setQuantity(1);
     setTimeout(() => {
       orderModal.onClose();
     }, 300);
   }, [orderModal, setShowModal]);
 
-  const handleIncrement = () => {
+  const handleIncrement = useCallback(() => {
     setQuantity(quantity + 1);
-  };
+  }, [quantity]);
 
-  const handleDecrement = () => {
+  const handleDecrement = useCallback(() => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
     }
-  };
+  }, [quantity]);
+
+  useEffect(() => {
+    const newKey =
+      order.id + "_" + selAddons.map((addon) => addon.name).join("_");
+    setNewUniqueKey(newKey);
+  }, [selAddons, order.id]);
+
+  useEffect(() => {
+    if (orderModal.isOpen) {
+      setQuantity(order.quantity);
+    }
+  }, [orderModal.isOpen, order.quantity, order.addons]);
 
   useEffect(() => {
     setShowModal(orderModal.isOpen);
-    quantity > 1 ? setMinusDisabled(false) : setMinusDisabled(true);
     setTotal(
       selAddons.length > 0
         ? (order.price +
@@ -61,9 +76,38 @@ const OrderModal = () => {
     quantity > 1 ? setMinusDisabled(false) : setMinusDisabled(true);
   }, [quantity, minusDisabled]);
 
-  const handleSubmit = useCallback(() => {
+  const handleEdit = useCallback(() => {
     // Calcula el precio total
 
+    // Crea el objeto con los datos del formulario
+    const plate = {
+      totalPrice: total,
+      addons: selAddons,
+      quantity: quantity,
+      uniqueKey: newUniqueKey,
+    };
+
+    try {
+      // Agrega la orden al estado Cart
+      cart.editDish(plate, order.uniqueKey);
+
+      setSelAddons([]);
+      setQuantity(1);
+
+      toast.success("Se han guardado tus cambios");
+      handleClose();
+    } catch (error) {
+      toast.error("Ha habido un error, intenta de nuevo");
+      throw new Error(error);
+    }
+  }, [handleClose, cart, order, total, quantity, selAddons, newUniqueKey]);
+
+  {
+    /* */
+  }
+  const handleSubmit = useCallback(() => {
+    // Calcula el precio total
+    setDisabled(true);
     // Crea el objeto con los datos del formulario
     const plate = {
       id: order.id,
@@ -71,9 +115,11 @@ const OrderModal = () => {
       price: order.price,
       totalPrice: total,
       image: order.image,
-      specification: order.specification,
+
       addons: selAddons,
+      agregados: order.agregados,
       quantity: quantity,
+      uniqueKey: newUniqueKey,
     };
 
     try {
@@ -82,14 +128,14 @@ const OrderModal = () => {
 
       setSelAddons([]);
       setQuantity(1);
-
+      setDisabled(false);
       toast.success("Se ha guardado tu pedido");
       handleClose();
     } catch (error) {
       toast.error("Ha habido un error, intenta de nuevo");
       throw new Error(error);
     }
-  }, [handleClose, cart, order, total, quantity, selAddons]);
+  }, [handleClose, cart, order, total, quantity, selAddons, newUniqueKey]);
 
   return (
     <>
@@ -242,6 +288,7 @@ const OrderModal = () => {
                           {order.agregados.map((agregado) => {
                             return (
                               <AgregadoBtn
+                                addons={order.addons}
                                 agregado={agregado}
                                 setSelAddons={setSelAddons}
                                 key={agregado.id}
@@ -308,7 +355,19 @@ const OrderModal = () => {
                         </svg>
                       </button>
                     </div>
-                    <Button label="Agregar" onClick={handleSubmit} />
+                    {order.uniqueKey ? (
+                      <Button
+                        label="Guardar cambios"
+                        onClick={handleEdit}
+                        disabled={disabled}
+                      />
+                    ) : (
+                      <Button
+                        label="Agregar"
+                        onClick={handleSubmit}
+                        disabled={disabled}
+                      />
+                    )}
                   </div>
                 </div>
               </div>

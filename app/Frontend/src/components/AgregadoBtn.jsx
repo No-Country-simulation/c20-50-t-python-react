@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const AgregadoBtn = ({ agregado, setSelAddons }) => {
+const AgregadoBtn = ({ agregado, setSelAddons, addons }) => {
   return (
     <div
       id={agregado.id}
@@ -15,9 +15,15 @@ const AgregadoBtn = ({ agregado, setSelAddons }) => {
           className="w-4 xl:w-5 h-4 xl:h-5"
           onChange={(e) => {
             if (e.target.checked) {
-              setSelAddons((prev) => [...prev, agregado]);
+              setSelAddons((prev) =>
+                [...prev, agregado].sort((a, b) => a.id - b.id)
+              );
             } else {
-              setSelAddons((prev) => prev.filter((a) => a.id !== agregado.id));
+              setSelAddons((prev) =>
+                prev
+                  .filter((a) => a.id !== agregado.id)
+                  .sort((a, b) => a.id - b.id)
+              );
             }
           }}
         />
@@ -35,6 +41,7 @@ const AgregadoBtn = ({ agregado, setSelAddons }) => {
 };
 
 AgregadoBtn.propTypes = {
+  addons: PropTypes.array.isRequired,
   agregado: PropTypes.object.isRequired,
   setSelAddons: PropTypes.func.isRequired,
 };

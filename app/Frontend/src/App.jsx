@@ -27,6 +27,7 @@ const App = () => {
       className={`
         flex 
         flex-col 
+        h-full
         md:h-screen
         font-roboto
         bg-[#EAEAEB]

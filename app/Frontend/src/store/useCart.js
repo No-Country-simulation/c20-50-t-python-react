@@ -3,27 +3,12 @@ import { create } from "zustand";
 const useCart = create((set) => ({
   // dishes: [], // array de objetos que representan cada platillo
   orders: [], // array de objetos que representan la orden de comida
-  total: 0,
-
-  // calculateSubTotalAndTotal: () => {
-  //   set((state) => {
-  //     let addonsPrice = state.orders.reduce(
-  //       (acc, item) => acc + item?.price * item.quantity,
-  //       0
-  //     );
-  //     let foodPrice = state.orders.reduce(
-  //       (acc, item) => acc + item.price * item.quantity,
-  //       0
-  //     );
-  //     let subTotal = addonsPrice + foodPrice;
-  //     const total = subTotal + subTotal * 0.03; // por defecto, el total es igual al subTotal
-  //     return { subTotal, total };
-  //   });
-  // },
 
   addDish: (dish) => {
     set((state) => {
-      const existingDish = state.orders.find((item) => item.id === dish.id);
+      const existingDish = state.orders.find(
+        (item) => item.uniqueKey === dish.uniqueKey
+      );
 
       if (state.orders.length === 0) {
         const plate = { ...dish };
@@ -35,41 +20,119 @@ const useCart = create((set) => ({
         if (existingDish) {
           return {
             orders: state.orders.map((item) =>
-              item.id === dish.id ? { ...item } : item
+              item.uniqueKey === dish.uniqueKey
+                ? {
+                    ...item,
+                    quantity: item.quantity + dish.quantity,
+                    totalPrice: item.totalPrice + dish.totalPrice,
+                  }
+                : item
             ),
+            total: state.total + dish.totalPrice,
           };
         } else {
-          // Aquí debemos agregar la lógica para agregar los agregados del platillo
           const plate = { ...dish };
           return {
             orders: [...state.orders, plate],
+            total: state.total + dish.totalPrice,
           };
         }
       }
     });
-    // Call calculateSubTotalAndTotal correctly;
   },
 
-  removeDish: (dishId, quantity) => {
+  editDish: (dish, oldUniqueKey) => {
+    set((state) => {
+      if (dish.uniqueKey === oldUniqueKey) {
+        // Si la uniqueKey no ha cambiado, solo actualiza el precio y la cantidad
+        const updatedOrders = state.orders.map((item) =>
+          item.uniqueKey === oldUniqueKey
+            ? {
+                ...item,
+                quantity: dish.quantity,
+                totalPrice: dish.totalPrice,
+              }
+            : item
+        );
+
+        return {
+          ...state,
+          orders: updatedOrders,
+        };
+      } else {
+        // Si la uniqueKey ha cambiado, busca si ya existe un plato con esa uniqueKey
+        const existingDish = state.orders.find(
+          (item) => item.uniqueKey === dish.uniqueKey
+        );
+
+        if (existingDish) {
+          // Si ya existe, suma la cantidad y totalPrice
+          const updatedOrders = state.orders.map((item) =>
+            item.uniqueKey === dish.uniqueKey
+              ? {
+                  ...item,
+                  quantity: item.quantity + dish.quantity,
+                  totalPrice: item.totalPrice + dish.totalPrice,
+                }
+              : item
+          );
+
+          // Elimina el plato con la oldUniqueKey
+          const newOrders = updatedOrders.filter(
+            (item) => item.uniqueKey !== oldUniqueKey
+          );
+
+          return {
+            ...state,
+            orders: newOrders,
+          };
+        } else {
+          // Si no existe, reemplaza el plato con la oldUniqueKey con el nuevo plato
+          const newOrders = state.orders.map((item) =>
+            item.uniqueKey === oldUniqueKey
+              ? {
+                  ...item,
+                  uniqueKey: dish.uniqueKey,
+                  quantity: dish.quantity,
+                  totalPrice: dish.totalPrice,
+                  addons: dish.addons,
+                }
+              : item
+          );
+
+          return {
+            ...state,
+            orders: newOrders,
+          };
+        }
+      }
+    });
+  },
+
+  removeDish: (uniqueKey, quantity) => {
     if (quantity > 0) {
       set((state) => {
-        const dishToRemove = state.orders.find((item) => item.id === dishId);
+        const dishToRemove = state.orders.find(
+          (item) => item.uniqueKey === uniqueKey
+        );
 
         if (dishToRemove) {
-          const itemQuantity = state.orders.map((item) => {
-            if (item.id === dishId) {
-              return item.quantity;
-            }
-          });
+          // const itemQuantity = state.orders.map((item) => {
+          //   if (item.id === dishId) {
+          //     return item.quantity;
+          //   }
+          // });
 
-          if (itemQuantity === quantity) {
+          if (dishToRemove.quantity == quantity) {
             return {
-              orders: state.orders.filter((item) => item.id !== dishId),
+              orders: state.orders.filter(
+                (item) => item.uniqueKey !== dishToRemove.uniqueKey
+              ),
             };
           } else
             return {
               orders: state.orders.map((item) =>
-                item.id === dishId
+                item.uniqueKey === uniqueKey
                   ? { ...item, quantity: item.quantity - quantity }
                   : item
               ),

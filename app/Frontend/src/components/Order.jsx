@@ -1,35 +1,74 @@
 import PropTypes from "prop-types";
+import useCart from "../store/useCart";
+import useOrderModal from "../hooks/useOrderModal";
+import { useEffect, useState } from "react";
 
 const Order = ({ food }) => {
+  const { removeDish } = useCart();
+  const orderModal = useOrderModal();
+  let [quantity, setQuantity] = useState(food.quantity);
+
+  useEffect(() => {
+    setQuantity(food.quantity);
+  }, [food, quantity]);
+
+  const handleEdit = () => {
+    const newOrder = {
+      id: food.id,
+      title: food.title,
+      price: food.price,
+      body: food.description,
+      image: food.image,
+      agregados: food.agregados,
+      addons: food.addons,
+      quantity: food.quantity,
+      uniqueKey: food.uniqueKey,
+    };
+    orderModal.setInfo(newOrder);
+    orderModal.onOpen();
+  };
+
+  const handleRemoveDish = () => {
+    removeDish(food.uniqueKey, food.quantity);
+  };
+
   return (
     <div
       className={`
-     
       flex
       flex-row
       items-center
-      p-3
+      py-1
+      px-[6px]
     bg-[#BDBDBD]
       rounded-[10px]
       gap-3
     `}
       id={food.id}
     >
-      <img
-        src={food.image}
-        className={`
+      <div
+        className="
+          relative
           w-[25%]
+          min-w-[50px]
+          h-full"
+      >
+        <img
+          src={food.image}
+          className={`
+          w-full
           min-w-[50px]
           h-full
           object-fit: contain
           rounded-lg 
-          border
-          border-[#878787]
           resize
           bg-contain
          `}
-      />
-
+        />
+        <span className="absolute text-[10px] font-normal bottom-0 left-0  ml-1 mb-1 bg-[#5C5C5C] text-white py-1 px-[6px] rounded-md">
+          x{food.quantity}
+        </span>
+      </div>
       <div
         className={`
           flex
@@ -51,9 +90,16 @@ const Order = ({ food }) => {
         </div>
 
         <div className="flex flex-row justify-between items-center">
-          <span className="">{food.specification}</span>
+          <span className="">
+            {food.addons.map((addon) => addon.name).join(", ") ||
+              "Sin agregados"}
+          </span>
           <div className="flex flex-row">
-            <button className="hover:animate-blink flex justify-center items-center">
+            <button
+              className="hover:animate-blink flex justify-center items-center"
+              name="edit"
+              onClick={() => handleEdit()}
+            >
               <svg
                 width="32"
                 height="33"
@@ -79,7 +125,11 @@ const Order = ({ food }) => {
                 </defs>
               </svg>
             </button>
-            <button className="hover:animate-blink flex items-center justify-center">
+            <button
+              className="hover:animate-blink flex items-center justify-center"
+              name="erase"
+              onClick={() => handleRemoveDish()}
+            >
               <svg
                 width="32"
                 height="33"

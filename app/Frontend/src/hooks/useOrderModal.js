@@ -8,9 +8,10 @@ const useOrderModal = create((set) => ({
     price: 0,
     image: "",
     body: "",
-    specification: "No specification",
+    addons: [],
     agregados: [],
     quantity: 1,
+    uniqueKey: "",
   },
 
   // Define the 'onOpen' function, which sets the 'isOpen' property to true
@@ -27,11 +28,10 @@ const useOrderModal = create((set) => ({
         price: order.price,
         image: order.image ? order.image : "",
         body: order.body,
-        specification: order.specification
-          ? order.specification
-          : "No specifications",
+        addons: order?.addons || [],
         agregados: order.agregados ? order.agregados : [],
         quantity: order?.quantity || 1,
+        uniqueKey: order.uniqueKey ? order.uniqueKey : "",
       },
     });
   },

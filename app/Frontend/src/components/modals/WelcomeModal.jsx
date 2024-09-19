@@ -22,12 +22,12 @@ const WelcomeModal = ({ numeroMesa }) => {
 
   return (
     showModal && (
-      <div className="fixed inset-0 flex items-center justify-center bg-black/70 shadow-2xl z-[40]">
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center items-center">
-          <h2 className="text-2xl font-black mb-4">
+      <div className="fixed inset-0 flex items-center justify-center bg-black/70 shadow-xl z-[40]">
+        <div className="bg-white p-3 md:p-6 rounded-lg shadow-lg text-center items-center">
+          <h2 className="text-lg md:text-xl lg:text-2xl font-bold md:font-black mb-3 md:mb-4">
             Bienvenido a Nostra Cocina
           </h2>
-          <p className="mb-6 font-medium text-lg">
+          <p className="mb-4 md:mb-6 font-medium lg:text-lg">
             Usted está pidiendo para la mesa {numeroMesa}
           </p>
 
@@ -35,7 +35,7 @@ const WelcomeModal = ({ numeroMesa }) => {
             {/* Botón para llamar al mozo (enlazar funcionalidad luego) */}
             <button
               onClick={() => waitressModal.onOpen()}
-              className="px-4 py-2 bg-[#343434] border-[#343434] text-white rounded hover:bg-[#343434]/80 active:bg-[#1F1F1F] disabled:opacity-70 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-[#343434] border-[#343434] text-white text-sm md:text-base md:font-medium rounded hover:bg-[#343434]/80 active:bg-[#1F1F1F] disabled:opacity-70 disabled:cursor-not-allowed"
             >
               Llamar al mozo
             </button>
@@ -43,7 +43,7 @@ const WelcomeModal = ({ numeroMesa }) => {
             {/* Botón para continuar al menú (redirige a /) */}
             <button
               onClick={handleClose}
-              className="px-4 py-2 bg-[#343434] border-[#343434] text-white rounded hover:bg-[#343434]/80 active:bg-[#1F1F1F] disabled:opacity-70 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-[#343434] border-[#343434] text-white text-sm md:text-base md:font-medium rounded hover:bg-[#343434]/80 active:bg-[#1F1F1F] disabled:opacity-70 disabled:cursor-not-allowed"
             >
               Continuar al menú
             </button>

@@ -18,8 +18,9 @@ const OrderSummary = () => {
   let [total, setTotal] = useState(subTotal + subTotal * 0.03);
 
   useEffect(() => {
-    if (orders.length === 0) setSubTotal(0);
-    else {
+    if (orders.length === 0) {
+      setSubTotal(0), setTotal(0);
+    } else {
       setSubTotal(orders.reduce((acc, order) => acc + order.totalPrice, 0));
       setTotal(subTotal + subTotal * 0.03);
     }
@@ -94,7 +95,7 @@ const OrderSummary = () => {
         justify-center
         mx-auto
         pb-2 
-        mb-2 
+        mb-4
         border-b 
         border-[#00000080]
       `}

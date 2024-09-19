@@ -3,11 +3,14 @@ import SearchBar from "../components/SearchBar";
 import { useNavigate } from "react-router-dom";
 
 import CategoryBox from "../components/CategoryBox";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useCategory from "../hooks/useCategory";
 import useMesaStore from "../hooks/useMesaStore";
+import { useMediaQuery } from "react-responsive";
 
 const Navbar = ({ categories }) => {
+  const isPhoneScreen = useMediaQuery({ query: "(max-width: 480px)" });
+  const [categoryIndex, setCategoryIndex] = useState(0);
   const { category, setCategory } = useCategory();
   const navigate = useNavigate();
   const table = useMesaStore();
@@ -20,7 +23,7 @@ const Navbar = ({ categories }) => {
     else category === "" ? navigate(`/`) : navigate(`/?category=${category}`);
   }, [category, navigate, table]);
 
-  const handleCategoryChange = useCallback(
+  const handleCategory = useCallback(
     (event) => {
       const cat = event.target.value;
       setCategory(cat === category ? "" : cat);
@@ -28,35 +31,48 @@ const Navbar = ({ categories }) => {
     [category, setCategory]
   );
 
+  const handleCategoryChange = (direction) => {
+    if (direction === "next") {
+      setCategoryIndex(categoryIndex + 1);
+    } else if (direction === "before") {
+      setCategoryIndex(categoryIndex - 1);
+    }
+  };
+
   return (
     <div
       className={`
       w-full 
-      py-4
+      lg:py-4
     `}
     >
       <div
         className={`
         box-border 
         flex 
-        flex-row 
-        gap-6 
-        w-[87.5%] 
-        mx-auto 
-        px-2 
+        flex-col
+        lg:flex-row 
+        lg:gap-6 
+        lg:w-[87.5%] 
+        lg:mx-auto 
+        
         justify-evenly 
-        rounded-lg 
+        lg:rounded-lg 
         bg-[#CFCFCF] 
-        h-[64px] 
+        h-full
+        lg:h-[64px] 
         items-center
       `}
       >
         <div
           className={`
           flex 
-          flex-row 
+          flex-row
+          max-lg:py-2 
           px-2 
-          w-2/3 
+          w-full
+          max-lg:bg-[#EAEAEB]
+          lg:w-2/3 
           gap-2
         `}
         >
@@ -64,7 +80,13 @@ const Navbar = ({ categories }) => {
             className={`
             flex 
             items-center
+            md:invisible
+            disabled:cursor-not-allowed
+            disabled:bg-opacity-70
           `}
+            disabled={categoryIndex === categories.length + 4}
+            name="next"
+            onClick={() => handleCategoryChange("next")}
           >
             <svg
               width="24"
@@ -89,27 +111,47 @@ const Navbar = ({ categories }) => {
            w-full 
            justify-evenly
            overflow-hidden
-      `}
+          `}
+            id="categoriesContainer"
           >
             {/*
               Mapeamos el arreglo de categorías y renderizamos un CategoryBox por cada una
             */}
-            {categories.map((category) => {
-              return (
-                <CategoryBox
-                  key={category}
-                  label={category}
-                  onClick={handleCategoryChange}
-                />
-              );
-            })}
+
+            {isPhoneScreen
+              ? categories
+                  .slice(categoryIndex, categoryIndex + 4)
+                  .map((category) => {
+                    return (
+                      <CategoryBox
+                        key={category}
+                        label={category}
+                        onClick={handleCategory}
+                      />
+                    );
+                  })
+              : categories.map((category) => {
+                  return (
+                    <CategoryBox
+                      key={category}
+                      label={category}
+                      onClick={handleCategory}
+                    />
+                  );
+                })}
           </div>
 
           <button
             className={`
             flex 
             items-center
+            md:invisible
+            disabled:cursor-not-allowed
+            disabled:bg-opacity-70
           `}
+            name="before"
+            disabled={categoryIndex === 0}
+            onClick={() => handleCategoryChange("before")}
           >
             <svg
               width="24"
