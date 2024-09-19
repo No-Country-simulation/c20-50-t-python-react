@@ -37,7 +37,29 @@ def create_mozocall():
         id_mesa = mozocall_data.get('id_mesa')
 
         if not id_mesa:
-            return jsonify({"message": f'Número de mesa inválido'}), 400
+            return jsonify({"message": 'Número de mesa inválido'}), 400
+
+        mozoCall = Llamadas.query.filter_by(id_mesa=id_mesa).first()
+
+        if mozoCall:
+            if mozoCall.cobrado:
+                nuevo_mozoCall = Llamadas(
+                    id_mesa=id_mesa,
+                    solicitado=datetime.utcnow(),
+                    atendido=False,
+                    hentrega=None,
+                    cuenta=False,
+                    cobrado=False
+                )
+                db.session.add(nuevo_mozoCall)
+            elif mozoCall.atendido and not mozoCall.cuenta:
+                mozoCall.solicitado = datetime.utcnow()
+                mozoCall.atendido = False
+            elif not mozoCall.atendido:
+                mozoCall.solicitado = mozoCall.solicitado 
+            elif mozoCall.cuenta and not mozoCall.cobrado:
+                mozoCall.solicitado = datetime.utcnow()
+                mozoCall.atendido = False
         else:
             nuevo_mozoCall = Llamadas(
                 id_mesa=id_mesa,
@@ -45,13 +67,15 @@ def create_mozocall():
                 atendido=False,
                 hentrega=None,
                 cuenta=False,
-                cobrado=False  
+                cobrado=False
             )
             db.session.add(nuevo_mozoCall)
 
     db.session.commit()
 
     return jsonify({"message": "El mozo ha sido llamado"}), 201
+
+
 
 @mozoCaller_bp.route(URL_ENDPOINT + '/cuenta', methods=['POST'])
 def create_or_update_cuenta():
@@ -65,7 +89,6 @@ def create_or_update_cuenta():
 
     if mozoCall:
         if mozoCall.cobrado:
-            # Si ya está cobrada, crear un nuevo registro
             nueva_cuenta = Llamadas(
                 id_mesa=id_mesa,
                 solicitado=datetime.utcnow(),
@@ -82,16 +105,13 @@ def create_or_update_cuenta():
             return jsonify({"message": "La cuenta ya ha sido solicitada"}), 200
 
         if mozoCall.atendido and not mozoCall.cuenta:
-            # Llamar a la función auxiliar para actualizar el estado de cuenta a true
             actualizar_cuenta(id_mesa)
             return jsonify({"message": "Se ha actualizado el estado de la cuenta a solicitado."}), 200
 
-        # Si la cuenta es false, actualizar a true
         mozoCall.cuenta = True
         db.session.commit()
         return jsonify({"message": "Se ha actualizado el estado de la cuenta a solicitado."}), 200
 
-    # Si no existe ninguna llamada con el id_mesa, crear un nuevo registro
     nueva_cuenta = Llamadas(
         id_mesa=id_mesa,
         solicitado=datetime.utcnow(),
@@ -106,13 +126,22 @@ def create_or_update_cuenta():
     return jsonify({"message": "Se ha creado un nuevo registro para el número de mesa proporcionado"}), 201
 
 def actualizar_cuenta(id_mesa):
-    # Función auxiliar para actualizar el estado de cuenta a true
     mozoCall = Llamadas.query.filter_by(id_mesa=id_mesa).first()
     if mozoCall:
         mozoCall.cuenta = True
         db.session.commit()
         return True
     return False
+
+def actualizar_pedido(id_mesa):
+    mozoCall = Llamadas.query.filter_by(id_mesa=id_mesa, cobrado=False).first()
+    if mozoCall:
+        mozoCall.solicitado = datetime.utcnow()
+        mozoCall.atendido = False
+        db.session.commit()
+        return True
+    return False
+
 
 
 @mozoCaller_bp.route(URL_ENDPOINT + '/<int:id>', methods=['GET'])
