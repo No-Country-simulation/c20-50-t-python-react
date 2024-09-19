@@ -82,43 +82,43 @@ const AgendaPedidos = () => {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Agenda de Pedidos</h1>
-      <table className="min-w-full table-auto border-collapse border border-gray-200">
-        <thead>
+    <div className="p-6 bg-gray-100 rounded-lg shadow-md">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">Agenda de Pedidos</h1>
+      <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+        <thead className="bg-gray-200 text-gray-600">
           <tr>
-            <th className="border border-gray-200 p-2">ID</th>
+            <th className="border-b border-gray-300 p-4 text-left">ID</th>
             <th
-              className="border border-gray-200 p-2 cursor-pointer"
+              className="border-b border-gray-300 p-4 text-left cursor-pointer"
               onClick={() => handleSort('mesa')}
             >
               Mesa {sortBy === 'mesa' && (sortDirection === 'asc' ? '↑' : '↓')}
             </th>
-            <th className="border border-gray-200 p-2">Producto</th>
-            <th className="border border-gray-200 p-2">Agregados</th>
-            <th className="border border-gray-200 p-2">Cantidad</th>
+            <th className="border-b border-gray-300 p-4 text-left">Producto</th>
+            <th className="border-b border-gray-300 p-4 text-left">Agregados</th>
+            <th className="border-b border-gray-300 p-4 text-center">Cantidad</th>
             <th
-              className="border border-gray-200 p-2 cursor-pointer"
+              className="border-b border-gray-300 p-4 text-left cursor-pointer"
               onClick={() => handleSort('solicitado')}
             >
               Solicitado {sortBy === 'solicitado' && (sortDirection === 'asc' ? '↑' : '↓')}
             </th>
             <th
-              className="border border-gray-200 p-2 cursor-pointer"
+              className="border-b border-gray-300 p-4 text-left cursor-pointer"
               onClick={() => handleSort('entregado')}
             >
               Entregado {sortBy === 'entregado' && (sortDirection === 'asc' ? '↑' : '↓')}
             </th>
-            <th className="border border-gray-200 p-2">Acciones</th>
+            <th className="border-b border-gray-300 p-4 text-center">Acciones</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-gray-800">
           {sortedPedidos.map((pedido) => (
-            <tr key={pedido.id}>
-              <td className="border border-gray-200 p-2">{pedido.id}</td>
-              <td className="border border-gray-200 p-2 text-center">{pedido.id_mesa}</td>
-              <td className="border border-gray-200 p-2">{pedido.producto.producto}</td>
-              <td className="border border-gray-200 p-2">
+            <tr key={pedido.id} className="hover:bg-gray-50">
+              <td className="border-b border-gray-300 p-4">{pedido.id}</td>
+              <td className="border-b border-gray-300 p-4 text-center">{pedido.id_mesa}</td>
+              <td className="border-b border-gray-300 p-4">{pedido.producto.producto}</td>
+              <td className="border-b border-gray-300 p-4">
                 {pedido.agregados.length > 0 ? (
                   <ul>
                     {pedido.agregados.map((agregado) => (
@@ -129,25 +129,25 @@ const AgendaPedidos = () => {
                   'Sin agregados'
                 )}
               </td>
-              <td className="border border-gray-200 p-2 text-center">{pedido.cantidad}</td>
-              <td className="border border-gray-200 p-2 text-center">
+              <td className="border-b border-gray-300 p-4 text-center">{pedido.cantidad}</td>
+              <td className="border-b border-gray-300 p-4 text-center">
                 {new Date(pedido.solicitado).toLocaleTimeString()}
               </td>
-              <td className="border border-gray-200 p-2 text-center">
+              <td className="border-b border-gray-300 p-4 text-center">
                 {pedido.entregado ? 'Sí' : 'No'}
               </td>
-              <td className="border border-gray-200 p-2 text-center">
+              <td className="border-b border-gray-300 p-4 text-center">
                 {!pedido.entregado ? (
                   <button
                     onClick={() => handleEntregarPedido(pedido.id)}
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition duration-150 ease-in-out"
                   >
                     Marcar como entregado
                   </button>
                 ) : (
                   <button
                     onClick={() => handleEliminarPedido(pedido.id)}
-                    className="bg-red-500 text-white px-4 py-2 rounded"
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700 transition duration-150 ease-in-out"
                   >
                     Eliminar
                   </button>
