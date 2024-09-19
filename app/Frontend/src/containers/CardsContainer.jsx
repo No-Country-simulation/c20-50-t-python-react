@@ -24,7 +24,7 @@ const CardsContainer = () => {
         border-b
         border-[#BBBBBB]
         rounded-[5px]
-        bg-[#E8E8E8]
+       bg-[#CFCFCF]
         text-lg
         font-semibold
         px-3
@@ -44,6 +44,7 @@ const CardsContainer = () => {
               title={food.title}
               price={food.price}
               description={food.description}
+              image={food.image.url ? food.image.url : food.image}
               category={food.category}
               agregados={food.agregados}
             />

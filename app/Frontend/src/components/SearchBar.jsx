@@ -32,13 +32,16 @@ const SearchBar = () => {
       className={`
         flex 
         flex-row 
-        h-[3rem] 
+        h-9
+        lg:h-12 
         w-[32.2%] 
         bg-white 
-        rounded-xl 
+        rounded-full
+        lg:rounded-xl 
         border 
         border-[#C2C2C2] 
         overflow-hidden
+        items-center
       `}
     >
       {/* Icono de búsqueda */}

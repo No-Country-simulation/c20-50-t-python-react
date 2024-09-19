@@ -4,7 +4,8 @@
 **Rubro:** SaaS (Software as a Service)
 
 ## **Descripción**
-Restaurant App es una aplicación web diseñada para mejorar la experiencia tanto de los clientes como del personal en restaurantes. El MVP de esta aplicación incluye funcionalidades como pedidos en línea mediante QR y una eficiente gestión de comandas en la cocina. El objetivo es digitalizar y optimizar el proceso de atención en restaurantes, brindando una experiencia más fluida y conveniente para los usuarios y el personal del restaurante.
+RestoManager es una aplicación web diseñada para mejorar la experiencia tanto de los clientes como del personal en restaurantes. El MVP de esta aplicación incluye funcionalidades como pedidos en línea mediante QR y una eficiente gestión de comandas en la cocina. El objetivo es digitalizar y optimizar el proceso de atención en restaurantes, brindando una experiencia más fluida y conveniente para los usuarios y el personal del restaurante.
+
 
 ## **Uso**
 
@@ -78,7 +79,6 @@ Restaurant App es una aplicación web diseñada para mejorar la experiencia tant
    - **Correo:** Brendacamano@gmail.com  
    - **LinkedIn:** [https://www.linkedin.com/in/brendacamano/](https://www.linkedin.com/in/brendacamano/)
 
-
 ## **Tecnologías**
 - **Frontend:**
   - React+vite
@@ -103,4 +103,5 @@ Restaurant App es una aplicación web diseñada para mejorar la experiencia tant
 
 ## **Enlaces del Proyecto**
 - **Repositorio en GitHub:** [https://github.com/tu-usuario/restaurant-app](https://github.com/tu-usuario/restaurant-app)
+- **Documentacion API : https:** [https://restomanager.docs.apiary.io/#]
 - **Sitio Web del Proyecto:** [https://restaurantapp.example.com](https://restaurantapp.example.com) *(Este enlace debe actualizarse una vez se ponga en producción)*
