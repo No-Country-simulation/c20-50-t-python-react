@@ -33,7 +33,7 @@ const OrderSummary = () => {
   };
 
   return (
-    <div className="flex flex-col w-[32.4%] justify-start items-start">
+    <div className="hidden lg:flex flex-col w-[32.4%] justify-start items-start  ">
       {table.numeroMesa ? (
         <div className="flex-row flex h-[48px] items-center justify-start gap-6">
           <div className="font-medium bg-[#CFCFCF] rounded-lg py-2 px-[14px] h-[48px] flex items-center w-fit">

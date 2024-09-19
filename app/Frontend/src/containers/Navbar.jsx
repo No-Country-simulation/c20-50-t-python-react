@@ -11,9 +11,40 @@ import { useMediaQuery } from "react-responsive";
 const Navbar = ({ categories }) => {
   const isPhoneScreen = useMediaQuery({ query: "(max-width: 480px)" });
   const [categoryIndex, setCategoryIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
   const { category, setCategory } = useCategory();
   const navigate = useNavigate();
   const table = useMesaStore();
+
+  useEffect(() => {
+    const categoriesContainer = document.getElementById("categoriesContainer");
+
+    categoriesContainer.addEventListener("touchstart", (event) => {
+      setTouchStart(event.touches[0].clientX);
+    });
+
+    categoriesContainer.addEventListener("touchmove", (event) => {
+      const touchMoveX = event.touches[0].clientX;
+      const diff = touchMoveX - touchStart;
+
+      if (diff > 50) {
+        // Swipe right
+        if (categoryIndex > 0) {
+          setCategoryIndex(categoryIndex - 1);
+        }
+      } else if (diff < -50) {
+        // Swipe left
+        if (categoryIndex < categories.length - 4) {
+          setCategoryIndex(categoryIndex + 1);
+        }
+      }
+    });
+
+    categoriesContainer.addEventListener("touchend", () => {
+      setTouchEnd(0);
+    });
+  }, [categoryIndex, touchStart, touchEnd]);
 
   useEffect(() => {
     if (table.numeroMesa)
@@ -33,9 +64,13 @@ const Navbar = ({ categories }) => {
 
   const handleCategoryChange = (direction) => {
     if (direction === "next") {
-      setCategoryIndex(categoryIndex + 1);
+      if (categoryIndex < categories.length - 4) {
+        setCategoryIndex(categoryIndex + 1);
+      }
     } else if (direction === "before") {
-      setCategoryIndex(categoryIndex - 1);
+      if (categoryIndex > 0) {
+        setCategoryIndex(categoryIndex - 1);
+      }
     }
   };
 
@@ -55,7 +90,7 @@ const Navbar = ({ categories }) => {
         lg:gap-6 
         lg:w-[87.5%] 
         lg:mx-auto 
-        
+        lg:px-3
         justify-evenly 
         lg:rounded-lg 
         bg-[#CFCFCF] 
@@ -72,7 +107,10 @@ const Navbar = ({ categories }) => {
           px-2 
           w-full
           max-lg:bg-[#EAEAEB]
-          lg:w-2/3 
+          lg:w-2/3
+          overflow-hidden
+          transition
+
           gap-2
         `}
         >
@@ -80,12 +118,12 @@ const Navbar = ({ categories }) => {
             className={`
             flex 
             items-center
-            md:invisible
+            md:hidden
             disabled:cursor-not-allowed
             disabled:bg-opacity-70
           `}
-            disabled={categoryIndex === categories.length + 4}
             name="next"
+            disabled={categoryIndex < categories.length - 4 ? false : true}
             onClick={() => handleCategoryChange("next")}
           >
             <svg
@@ -145,7 +183,7 @@ const Navbar = ({ categories }) => {
             className={`
             flex 
             items-center
-            md:invisible
+            md:hidden
             disabled:cursor-not-allowed
             disabled:bg-opacity-70
           `}
@@ -168,6 +206,7 @@ const Navbar = ({ categories }) => {
           </button>
         </div>
 
+        <div></div>
         <SearchBar />
       </div>
     </div>

@@ -26,7 +26,8 @@ const CategoryBox = ({ label, onClick }) => {
         box-border 
         flex-1 
         text-center 
-        py-3 
+        py-2
+        lg:py-3 
         transition
         duration-200 
         rounded-[10px]
