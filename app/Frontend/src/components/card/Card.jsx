@@ -14,6 +14,7 @@ const Card = ({
 
   const handleClick = () => {
     const newOrder = {
+      id: id,
       title: title,
       price: price,
       body: description,
@@ -28,20 +29,27 @@ const Card = ({
     <div
       className={`
     shadow-md
-    rounded-[15px]
+    rounded-xl
     overflow-hidden
+    bg-warmGray-100
     `}
       id={id}
       name={category}
       onClick={() => handleClick()}
     >
       {" "}
-      <div className="relative">
+      <div className="relative ">
         <img
-          src="https://i.pinimg.com/564x/07/21/32/072132759e23ee009f4f9ba04bdc8845.jpg"
+          src={
+            image === "https://fakeurl.com/imagen1"
+              ? "https://i.pinimg.com/564x/07/21/32/072132759e23ee009f4f9ba04bdc8845.jpg"
+              : image
+          }
           className={`
           w-full 
           h-[150px]
+          resize
+          
          `}
         />
         {/* <svg
@@ -92,7 +100,7 @@ const Card = ({
         <div className="overflow-clip text-ellipsis line-clamp-2 text-xs md:text-sm ">
           {description}
         </div>
-        <div className="rounded-lg bg-[#C0C0C0] p-1 w-[78px] text-center font-semibold">
+        <div className="rounded-lg bg-warmGray-300 p-1 w-[78px] text-center font-semibold">
           ${price}
         </div>
       </div>

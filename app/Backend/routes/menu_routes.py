@@ -34,26 +34,40 @@ def update_menu(id):
     menu.descripcion = data.get('descripcion', menu.descripcion)
     menu.categoria = data.get('categoria', menu.categoria)
 
-    Agregado.query.filter_by(id_menu=menu.id).delete()
     agregados_data = data.get('agregados', [])
-    agregados = [Agregado(
-        id_menu=menu.id,
-        nombre=agregado_data['nombre'],
-        precio=agregado_data['precio'],
-        descripcion=agregado_data.get('descripcion', '')
-    ) for agregado_data in agregados_data]
-    
-    db.session.add_all(agregados)
-    
-    Imagen.query.filter_by(id_menu=menu.id).delete()
+    existing_agregados = {agregado.id: agregado for agregado in Agregado.query.filter_by(id_menu=menu.id).all()}
+
+    for agregado_data in agregados_data:
+        agregado_id = agregado_data.get('id')
+        if agregado_id and agregado_id in existing_agregados:
+            agregado = existing_agregados[agregado_id]
+            agregado.nombre = agregado_data.get('nombre', agregado.nombre)
+            agregado.precio = agregado_data.get('precio', agregado.precio)
+            agregado.descripcion = agregado_data.get('descripcion', agregado.descripcion)
+        else:
+            new_agregado = Agregado(
+                id_menu=menu.id,
+                nombre=agregado_data['nombre'],
+                precio=agregado_data['precio'],
+                descripcion=agregado_data.get('descripcion', '')
+            )
+            db.session.add(new_agregado)
+
     imagenes_data = data.get('imagenes', [])
-    imagenes = [Imagen(
-        id_menu=menu.id,
-        url=imagen_data['url']
-    ) for imagen_data in imagenes_data]
-    
-    db.session.add_all(imagenes)
-    
+    existing_imagenes = {imagen.id: imagen for imagen in Imagen.query.filter_by(id_menu=menu.id).all()}
+
+    for imagen_data in imagenes_data:
+        imagen_id = imagen_data.get('id')
+        if imagen_id and imagen_id in existing_imagenes:
+            imagen = existing_imagenes[imagen_id]
+            imagen.url = imagen_data.get('url', imagen.url)
+        else:
+            new_imagen = Imagen(
+                id_menu=menu.id,
+                url=imagen_data['url']
+            )
+            db.session.add(new_imagen)
+
     db.session.commit()
 
     menu_data = menu_schema.dump(menu)
@@ -65,50 +79,47 @@ def update_menu(id):
 def create_menu():
     data = request.get_json()
 
-    
     if isinstance(data, dict):
         data = [data]  
-
     elif not isinstance(data, list):
         return jsonify({"error": "La solicitud debe contener un objeto o una lista de menús"}), 400
 
     created_menus = []
-    
+
     for menu_data in data:
-       
+
         new_menu = Menu(
             producto=menu_data['producto'],
             precio=menu_data['precio'],
-            descripcion=menu_data.get('descripcion', ''),
-            categoria=menu_data.get('categoria', '')
+            descripcion=menu_data.get('descripcion', ''),  
+            categoria=menu_data.get('categoria', '')  
         )
         db.session.add(new_menu)
         db.session.commit()  
 
         agregados_data = menu_data.get('agregados', [])
-        agregados = [Agregado(
-            id_menu=new_menu.id,
-            nombre=agregado_data['nombre'],
-            precio=agregado_data['precio'],
-            descripcion=agregado_data.get('descripcion', '')
-        ) for agregado_data in agregados_data]
-        
-        db.session.add_all(agregados)
+        if agregados_data:  
+            agregados = [Agregado(
+                id_menu=new_menu.id,
+                nombre=agregado_data['nombre'],
+                precio=agregado_data['precio'],
+                descripcion=agregado_data.get('descripcion', '')  
+            ) for agregado_data in agregados_data]
+            db.session.add_all(agregados)
 
         imagenes_data = menu_data.get('imagenes', [])
-        imagenes = [Imagen(
-            id_menu=new_menu.id,
-            url=imagen_data['url']
-        ) for imagen_data in imagenes_data]
-        
-        db.session.add_all(imagenes)
+        if imagenes_data:  
+            imagenes = [Imagen(
+                id_menu=new_menu.id,
+                url=imagen_data['url']
+            ) for imagen_data in imagenes_data]
+            db.session.add_all(imagenes)
 
-        db.session.commit()  
+        db.session.commit()
 
         created_menus.append(menu_schema.dump(new_menu))
 
     return jsonify(created_menus), 201
-
 
 @menu_bp.route('/menu/<int:id>', methods=['DELETE'])
 @login_required

@@ -6,6 +6,7 @@
 ## **Descripción**
 RestoManager es una aplicación web diseñada para mejorar la experiencia tanto de los clientes como del personal en restaurantes. El MVP de esta aplicación incluye funcionalidades como pedidos en línea mediante QR y una eficiente gestión de comandas en la cocina. El objetivo es digitalizar y optimizar el proceso de atención en restaurantes, brindando una experiencia más fluida y conveniente para los usuarios y el personal del restaurante.
 
+
 ## **Uso**
 
 ### **Hacer Pedido desde QR Code**
@@ -73,7 +74,7 @@ RestoManager es una aplicación web diseñada para mejorar la experiencia tanto 
    - **Correo:** anghie.parker@gmail.com  
    - **LinkedIn:** [linkedin.com/in/anghela-anzaldo-2a7374173](https://linkedin.com/in/anghela-anzaldo-2a7374173)
 
-6. **Brenda Camaño**  
+5. **Brenda Camaño**  
    - **Rol:** UI/UX  
    - **Correo:** Brendacamano@gmail.com  
    - **LinkedIn:** [https://www.linkedin.com/in/brendacamano/](https://www.linkedin.com/in/brendacamano/)

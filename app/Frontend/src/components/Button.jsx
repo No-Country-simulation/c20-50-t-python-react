@@ -14,7 +14,6 @@ const Button = ({ label, onClick, disabled, outline }) => {
         rounded-[10px] 
         font-inter
         font-bold
-        text-lg
         text-center
         
         ${disabled ? "opacity-70 cursor-not-allowed" : ""}
@@ -34,17 +33,10 @@ const Button = ({ label, onClick, disabled, outline }) => {
 Button.propTypes = {
   // El prop 'categories' es un arreglo requerido
   label: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   disabled: PropTypes.bool,
   small: PropTypes.bool,
   outline: PropTypes.bool,
-  // icon: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
 };
 
 export default Button;
-
-// ${
-//   small
-//     ? "py-1 text-sm font-light border-[1px]"
-//     : "py-3  font-semibold border-2"
-// }

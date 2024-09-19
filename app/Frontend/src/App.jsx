@@ -4,18 +4,19 @@
  * @returns {JSX.Element} - Elemento JSX que contiene la estructura básica de la aplicación
  */
 
-import CardsContainer from "./containers/CardsContainer";
 import Header from "./containers/Header";
 import Navbar from "./containers/Navbar";
 import OrderSummary from "./containers/OrderSummary";
+import MenuLoader from "./containers/MenuLoader";
+import Footer from "./containers/Footer";
 
 // Definimos las categorías de la aplicación
 const categories = [
-  "Entrantes",
-  "Pizzas",
+  "Entradas",
+  "Pizza",
   "Bebidas",
   "Pastas",
-  "Risotos",
+  "Rissotto",
   "Postres",
 ];
 
@@ -26,8 +27,16 @@ const App = () => {
       className={`
         flex 
         flex-col 
-        h-screen 
+        h-full
+        md:h-screen
         font-roboto
+        bg-[#EAEAEB]
+        md:scrollbar
+        md:overflow-y-scroll
+        md:scrollbar-track-rounded-full
+        md:scrollbar-thumb-rounded-full
+        md:scrollbar-thumb-gray-500 
+        md:scrollbar-track-slate-300 
         `}
     >
       {/* Header de la aplicación */}
@@ -45,9 +54,10 @@ const App = () => {
           mt-4
         `}
       >
-        <CardsContainer />
+        <MenuLoader />
         <OrderSummary />
       </div>
+      <Footer />
     </div>
   );
 };
