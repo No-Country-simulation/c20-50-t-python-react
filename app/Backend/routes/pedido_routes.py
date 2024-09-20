@@ -250,3 +250,4 @@ def force_delete_pedido(id):
     db.session.commit()
 
     return jsonify({"message": "Pedido eliminado con éxito, sin restricción de tiempo"}), 200
+
