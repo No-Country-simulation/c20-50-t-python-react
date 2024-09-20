@@ -17,7 +17,7 @@ const Order = ({ food }) => {
       id: food.id,
       title: food.title,
       price: food.price,
-      body: food.description,
+      body: food.body,
       image: food.image,
       agregados: food.agregados,
       addons: food.addons,

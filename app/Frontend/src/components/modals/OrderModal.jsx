@@ -34,9 +34,8 @@ const OrderModal = () => {
     setShowModal(false);
     setSelAddons([]);
     setQuantity(1);
-    setTimeout(() => {
-      orderModal.onClose();
-    }, 300);
+
+    orderModal.onClose();
   }, [orderModal, setShowModal]);
 
   const handleIncrement = useCallback(() => {
@@ -58,6 +57,11 @@ const OrderModal = () => {
   useEffect(() => {
     if (orderModal.isOpen) {
       setQuantity(order.quantity);
+      // Agrega las clases overflow-hidden, h-screen y fixed al cuerpo del documento
+      document.body.classList.add("overflow-hidden", "h-screen", "fixed");
+    } else {
+      // Quita las clases overflow-hidden, h-screen y fixed del cuerpo del documento
+      document.body.classList.remove("overflow-hidden", "h-screen", "fixed");
     }
   }, [orderModal.isOpen, order.quantity, order.addons]);
 
@@ -75,6 +79,8 @@ const OrderModal = () => {
   useEffect(() => {
     quantity > 1 ? setMinusDisabled(false) : setMinusDisabled(true);
   }, [quantity, minusDisabled]);
+
+  console.log("SOY ORDER", order);
 
   const handleEdit = useCallback(() => {
     // Calcula el precio total
@@ -115,7 +121,7 @@ const OrderModal = () => {
       price: order.price,
       totalPrice: total,
       image: order.image,
-
+      body: order.body,
       addons: selAddons,
       agregados: order.agregados,
       quantity: quantity,
@@ -153,6 +159,7 @@ const OrderModal = () => {
           items-center  
           overflow-x-hidden
           overflow-y-auto
+          
           `}
         >
           {" "}
@@ -165,7 +172,7 @@ const OrderModal = () => {
               2xl:w-3/5    
               mx-auto 
               items-center
-              max-h-screen 
+              
              
              `}
           >
@@ -238,36 +245,36 @@ const OrderModal = () => {
                       ) : null}
                     </div>
                   </div>
-                  {isPhoneScreen ? null : (
-                    <div className="items-center">
-                      <span className="text-xl md:text-base font-medium px-6 lg:px-0 w-full block lg:w-fit">
-                        {order.body}
-                      </span>
+                  {/* {isPhoneScreen ? null : ( */}
+                  <div className="items-center">
+                    <span className="text-xl md:text-base font-medium px-6 lg:px-0 w-full block lg:w-fit">
+                      {order.body}
+                    </span>
 
-                      {isBigScreen ? null : (
-                        <button
-                          name="close"
-                          onClick={handleClose}
-                          className="border-0 hover:opacity-70 transition absolute lg:relative top-0 right-0 cursor-pointer rounded-md m-3 z-[100]"
+                    {isBigScreen ? null : (
+                      <button
+                        name="close"
+                        onClick={handleClose}
+                        className="border-0 hover:opacity-70 transition absolute lg:relative top-0 right-0 cursor-pointer rounded-md m-3 z-[100]"
+                      >
+                        <svg
+                          width="48"
+                          height="48"
+                          viewBox="0 0 48 48"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="p-1 rounded-xl"
                         >
-                          <svg
-                            width="48"
-                            height="48"
-                            viewBox="0 0 48 48"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="p-1 rounded-xl"
-                          >
-                            <rect width="48" height="48" fill="white" />
-                            <path
-                              d="M35.4093 12.5907C34.6216 11.8031 33.3446 11.8031 32.5569 12.5907L24 21.1477L15.443 12.5907C14.6554 11.8031 13.3784 11.8031 12.5907 12.5907C11.8031 13.3784 11.8031 14.6554 12.5907 15.4431L21.1477 24L12.5907 32.5569C11.8031 33.3446 11.8031 34.6216 12.5907 35.4093C13.3784 36.1969 14.6554 36.1969 15.4431 35.4093L24 26.8523L32.5569 35.4093C33.3446 36.1969 34.6216 36.1969 35.4093 35.4093C36.1969 34.6216 36.1969 33.3446 35.4093 32.5569L26.8523 24L35.4093 15.4431C36.1969 14.6554 36.1969 13.3784 35.4093 12.5907Z"
-                              fill="black"
-                            />
-                          </svg>
-                        </button>
-                      )}
-                    </div>
-                  )}
+                          <rect width="48" height="48" fill="white" />
+                          <path
+                            d="M35.4093 12.5907C34.6216 11.8031 33.3446 11.8031 32.5569 12.5907L24 21.1477L15.443 12.5907C14.6554 11.8031 13.3784 11.8031 12.5907 12.5907C11.8031 13.3784 11.8031 14.6554 12.5907 15.4431L21.1477 24L12.5907 32.5569C11.8031 33.3446 11.8031 34.6216 12.5907 35.4093C13.3784 36.1969 14.6554 36.1969 15.4431 35.4093L24 26.8523L32.5569 35.4093C33.3446 36.1969 34.6216 36.1969 35.4093 35.4093C36.1969 34.6216 36.1969 33.3446 35.4093 32.5569L26.8523 24L35.4093 15.4431C36.1969 14.6554 36.1969 13.3784 35.4093 12.5907Z"
+                            fill="black"
+                          />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
+                  {/* )} */}
 
                   {/* ADDONS */}
 

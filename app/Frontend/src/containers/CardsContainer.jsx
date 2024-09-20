@@ -17,7 +17,7 @@ const CardsContainer = () => {
   }, [category, filteredMenu]);
 
   return (
-    <div className="flex flex-col w-[66.2%]">
+    <div className="flex flex-col w-full lg:w-[66.2%]">
       <div
         className={`
         h-12
@@ -35,7 +35,7 @@ const CardsContainer = () => {
         {category === "" ? "Comidas" : category}
       </div>
 
-      <div className="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 my-4">
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 my-4">
         {memoizedFilteredMenu.map((food, key) => {
           return (
             <Card
