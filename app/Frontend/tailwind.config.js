@@ -1,7 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 import colors from "tailwindcss/colors";
-import tailwindScrollbar from "tailwind-scrollbar";
-import { scale } from "@cloudinary/url-gen/actions/resize";
 
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
@@ -16,7 +14,6 @@ export default {
           rounded: "full",
         },
       },
-
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
         inter: ["Inter", "sans-serif"],

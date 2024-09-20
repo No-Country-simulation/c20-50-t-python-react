@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="flex w-full bg-gray-400 min-h-36 items-center">
+    <div className="hidden lg:flex w-full bg-gray-400 min-h-36 items-center ">
       <div className="flex flex-row w-[87.5%]  mx-auto justify-between items-center">
         <Link
           to={"/panel/pedidos"}

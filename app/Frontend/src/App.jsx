@@ -9,6 +9,7 @@ import Navbar from "./containers/Navbar";
 import OrderSummary from "./containers/OrderSummary";
 import MenuLoader from "./containers/MenuLoader";
 import Footer from "./containers/Footer";
+import OrderCheck from "./containers/OrderCheck";
 
 // Definimos las categorías de la aplicación
 const categories = [
@@ -27,7 +28,7 @@ const App = () => {
       className={`
         flex 
         flex-col 
-        h-full
+        min-h-screen
         md:h-screen
         font-roboto
         bg-[#EAEAEB]
@@ -37,6 +38,7 @@ const App = () => {
         md:scrollbar-thumb-rounded-full
         md:scrollbar-thumb-gray-500 
         md:scrollbar-track-slate-300 
+      
         `}
     >
       {/* Header de la aplicación */}
@@ -58,6 +60,7 @@ const App = () => {
         <OrderSummary />
       </div>
       <Footer />
+      <OrderCheck />
     </div>
   );
 };

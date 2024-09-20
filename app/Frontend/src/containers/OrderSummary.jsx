@@ -162,7 +162,7 @@ const OrderSummary = () => {
         pl-3 
         pr-2 
         my-3
-      `}
+         `}
         >
           <div
             className={`
@@ -174,7 +174,7 @@ const OrderSummary = () => {
           md:text-sm
           lg:text-base
           xl:text-lg
-        `}
+            `}
           >
             <span>Sub-total</span>
             <span>$ {subTotal}</span>
@@ -190,7 +190,7 @@ const OrderSummary = () => {
           lg:text-lg
           xl:text-xl
           font-semibold
-        `}
+            `}
           >
             <span>Total</span>
             <span>$ {total}</span>

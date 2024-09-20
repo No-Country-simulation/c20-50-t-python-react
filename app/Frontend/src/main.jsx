@@ -16,6 +16,7 @@ import MesaPage from "./views/MesaPage.jsx";
 import "./index.css";
 import WaitressModal from "./components/modals/WaitressModal.jsx";
 import App from "./App.jsx";
+import CartModal from "./components/modals/CartModal.jsx";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,7 @@ createRoot(document.getElementById("root")).render(
     <ToasterProvider />
     <OrderModal />
     <WaitressModal />
+    <CartModal />
     <RouterProvider router={router} />
   </StrictMode>
 );

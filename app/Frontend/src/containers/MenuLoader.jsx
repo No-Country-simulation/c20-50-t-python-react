@@ -12,7 +12,10 @@ const MenuLoader = () => {
 
   if (isLoading) {
     return (
-      <div className="w-[66.2%] flex items-center justify-center mt-20">
+      <div
+        className="w-full lg:w-[66.2%] flex items-center justify-center fixed lg:static top-[60%] md:top-3/4 mt-10
+      "
+      >
         <div className="loader">
           <div className="panWrapper">
             <div className="pan">

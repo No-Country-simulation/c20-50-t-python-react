@@ -78,7 +78,10 @@ const Navbar = ({ categories }) => {
     <div
       className={`
       w-full 
-      lg:py-4
+      lg:py-4 
+      max-lg:sticky
+      top-0
+      z-20
     `}
     >
       <div
@@ -94,9 +97,11 @@ const Navbar = ({ categories }) => {
         justify-evenly 
         lg:rounded-lg 
         bg-[#CFCFCF] 
-        h-full
+        h-24
         lg:h-[64px] 
         items-center
+        relative
+        
       `}
       >
         <div
@@ -109,9 +114,8 @@ const Navbar = ({ categories }) => {
           max-lg:bg-[#EAEAEB]
           lg:w-2/3
           overflow-hidden
-          transition
-
           gap-2
+         
         `}
         >
           <button
@@ -121,6 +125,7 @@ const Navbar = ({ categories }) => {
             md:hidden
             disabled:cursor-not-allowed
             disabled:bg-opacity-70
+            
           `}
             name="next"
             disabled={categoryIndex < categories.length - 4 ? false : true}
@@ -206,7 +211,6 @@ const Navbar = ({ categories }) => {
           </button>
         </div>
 
-        <div></div>
         <SearchBar />
       </div>
     </div>

@@ -1,8 +1,12 @@
 import { create } from "zustand";
 
 const useCart = create((set) => ({
-  // dishes: [], // array de objetos que representan cada platillo
   orders: [], // array de objetos que representan la orden de comida
+  isOpen: false,
+
+  onOpen: () => set({ isOpen: true }),
+
+  onClose: () => set({ isOpen: false }),
 
   addDish: (dish) => {
     set((state) => {
