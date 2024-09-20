@@ -17,7 +17,6 @@ const OrderModal = () => {
   const [minusDisabled, setMinusDisabled] = useState(true);
   const [disabled, setDisabled] = useState(false);
   const isBigScreen = useMediaQuery({ query: "(min-width: 1024px)" });
-  const isPhoneScreen = useMediaQuery({ query: "(max-width: 480px)" });
   let [quantity, setQuantity] = useState(order.quantity);
   const [selAddons, setSelAddons] = useState([]); // Array to store selected agregados
   let [total, setTotal] = useState(
@@ -47,6 +46,19 @@ const OrderModal = () => {
       setQuantity(quantity - 1);
     }
   }, [quantity]);
+
+  useEffect(() => {
+    const handleBackButton = () => {
+      handleClose();
+    };
+
+    window.history.pushState(null, null, null);
+    window.addEventListener("popstate", handleBackButton);
+
+    return () => {
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, [handleClose]);
 
   useEffect(() => {
     const newKey =
@@ -79,8 +91,6 @@ const OrderModal = () => {
   useEffect(() => {
     quantity > 1 ? setMinusDisabled(false) : setMinusDisabled(true);
   }, [quantity, minusDisabled]);
-
-  console.log("SOY ORDER", order);
 
   const handleEdit = useCallback(() => {
     // Calcula el precio total
@@ -172,8 +182,7 @@ const OrderModal = () => {
               2xl:w-3/5    
               mx-auto 
               items-center
-              
-             
+
              `}
           >
             {/* CONTENT */}

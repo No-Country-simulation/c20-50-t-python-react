@@ -89,6 +89,7 @@ const OrderSummary = () => {
           </div>
         )}
 
+
         <div name="bills" className="flex flex-col pl-3 pr-2 my-3">
           <div className="flex flex-row font-medium justify-between sm:text-xs md:text-sm lg:text-base xl:text-lg">
             <span>Sub-total</span>
