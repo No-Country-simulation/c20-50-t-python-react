@@ -63,6 +63,7 @@ RestoManager es una aplicación web diseñada para mejorar la experiencia tanto 
 2. **Frananyel Vidal**  
    - **Rol:** Front End  
    - **Correo:** frananyelvidal@gmail.com
+   - **LinkedIn:** [https://www.linkedin.com/in/frananyel-vidal/](https://www.linkedin.com/in/frananyel-vidal/)
 
 3. **Facundo Rua**  
    - **Rol:** Back End  
