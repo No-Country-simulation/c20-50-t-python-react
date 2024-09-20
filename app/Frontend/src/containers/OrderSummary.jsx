@@ -1,15 +1,14 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Button from '../components/Button';
 import Order from '../components/Order';
-import useCart from '../store/useCart'; // Asegúrate de importar useCart
+import useCart from '../store/useCart'; 
 import PropTypes from 'prop-types';
 import useWaitressModal from '../hooks/useWaitressModal';
 import useMesaStore from '../hooks/useMesaStore';
 import axiosConfig from '../utils/axiosConfig'; 
 
 const OrderSummary = () => {
-  const { orders, clearCart } = useCart(); // Desestructuramos clearCart
+  const { orders, clearCart } = useCart(); 
   const table = useMesaStore();
   const waitressModal = useWaitressModal();
   const [subTotal, setSubTotal] = useState(
@@ -33,21 +32,20 @@ const OrderSummary = () => {
 
   const transformOrder = (order) => {
     return {
-      id_menu: order.id, // Ajusta esto si hay una forma específica de obtener id_menu
+      id_menu: order.id, 
       id_mesa: table.numeroMesa,
-      agregados: order.addons.map((addon) => addon.id), // Cambia agregados por addons
+      agregados: order.addons.map((addon) => addon.id), 
       cantidad: order.quantity,
     };
   };
 
   const handleConfirmOrder = async () => {
     const transformedOrders = orders.map(transformOrder);
-    console.log('JSON enviado:', transformedOrders); // Console log para ver el JSON enviado
 
     try {
       await axiosConfig.post('/pedidos', transformedOrders);
       console.log('Pedido confirmado');
-      clearCart(); // Limpiar el carrito después de confirmar el pedido
+      clearCart(); 
     } catch (error) {
       console.error('Error al confirmar el pedido', error);
     }
